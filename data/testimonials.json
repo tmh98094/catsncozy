@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "Sarah Jenkins",
+    "role": "Cat Mom of 2",
+    "feedback": "The best place for my Mochi! She came back so happy and well-groomed. The daily updates gave me so much peace of mind.",
+    "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200"
+  },
+  {
+    "id": 2,
+    "name": "David Chen",
+    "role": "Frequent Traveler",
+    "feedback": "I never worry when I travel for work. The team at Cats & Cozy treats Oliver like their own. Highly recommended!",
+    "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200"
+  },
+  {
+    "id": 3,
+    "name": "Emily Wilson",
+    "role": "Adopter",
+    "feedback": "We found our perfect match here. The adoption process was thorough and caring. Luna is the light of our lives!",
+    "image": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200"
+  },
+  {
+    "id": 4,
+    "name": "Jessica Lee",
+    "role": "First Time Owner",
+    "feedback": "The staff were so helpful in guiding me through my first adoption. They really care about the cats.",
+    "image": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=200"
+  }
+]

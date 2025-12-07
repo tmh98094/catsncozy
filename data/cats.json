@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "name": "Mochi",
+    "age": "2 Years",
+    "breed": "Scottish Fold",
+    "gender": "Female",
+    "image": "https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&q=80&w=800",
+    "personality": ["Playful", "Cuddly"]
+  },
+  {
+    "id": 2,
+    "name": "Luna",
+    "age": "6 Months",
+    "breed": "Domestic Short Hair",
+    "gender": "Female",
+    "image": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=800",
+    "personality": ["Curious", "Energetic"]
+  },
+  {
+    "id": 3,
+    "name": "Garfield",
+    "age": "5 Years",
+    "breed": "Persian",
+    "gender": "Male",
+    "image": "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&q=80&w=800",
+    "personality": ["Lazy", "Foodie", "Chill"]
+  },
+  {
+    "id": 4,
+    "name": "Shadow",
+    "age": "1 Year",
+    "breed": "Bombay",
+    "gender": "Male",
+    "image": "https://images.unsplash.com/photo-1513245543132-31f507417b26?auto=format&fit=crop&q=80&w=800",
+    "personality": ["Mysterious", "Quiet"]
+  },
+  {
+    "id": 5,
+    "name": "Sunny",
+    "age": "3 Years",
+    "breed": "Maine Coon",
+    "gender": "Male",
+    "image": "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&q=80&w=800",
+    "personality": ["Gentle Giant", "Friendly"]
+  },
+  {
+    "id": 6,
+    "name": "Bella",
+    "age": "4 Years",
+    "breed": "Siamese",
+    "gender": "Female",
+    "image": "https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?auto=format&fit=crop&q=80&w=800",
+    "personality": ["Vocal", "Intelligent"]
+  },
+  {
+    "id": 7,
+    "name": "Oliver",
+    "age": "2 Months",
+    "breed": "Tabby",
+    "gender": "Male",
+    "image": "https://images.unsplash.com/photo-1519052537078-e6302a4968ef?auto=format&fit=crop&q=80&w=800",
+    "personality": ["Playful", "Tiny"]
+  },
+  {
+    "id": 8,
+    "name": "Cleo",
+    "age": "7 Years",
+    "breed": "Sphynx",
+    "gender": "Female",
+    "image": "https://images.unsplash.com/photo-1516280030429-27679b3dc9cf?auto=format&fit=crop&q=80&w=800",
+    "personality": ["Affectionate", "Warm"]
+  }
+]
