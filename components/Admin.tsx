@@ -13,6 +13,10 @@ interface AdminProps {
   setTestimonials: React.Dispatch<React.SetStateAction<Testimonial[]>>;
   services: Service[];
   setServices: React.Dispatch<React.SetStateAction<Service[]>>;
+  aboutGallery: GalleryItem[];
+  setAboutGallery: React.Dispatch<React.SetStateAction<GalleryItem[]>>;
+  facilityGallery: GalleryItem[];
+  setFacilityGallery: React.Dispatch<React.SetStateAction<GalleryItem[]>>;
   onBack: () => void;
 }
 
@@ -26,7 +30,7 @@ const BREED_OPTIONS = [
   'Other'
 ];
 
-const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimonials, services, setServices, onBack }) => {
+const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimonials, services, setServices, aboutGallery, setAboutGallery, facilityGallery, setFacilityGallery, onBack }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [activeTab, setActiveTab] = useState<Tab>('cats');
@@ -60,9 +64,7 @@ const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimoni
   const [serviceImagesInput, setServiceImagesInput] = useState('');
   const [uploadingServiceImage, setUploadingServiceImage] = useState(false);
 
-  // Gallery State
-  const [aboutGallery, setAboutGallery] = useState<GalleryItem[]>([]);
-  const [facilityGallery, setFacilityGallery] = useState<GalleryItem[]>([]);
+  // Gallery Modal State
   const [isAboutGalleryModalOpen, setIsAboutGalleryModalOpen] = useState(false);
   const [isFacilityGalleryModalOpen, setIsFacilityGalleryModalOpen] = useState(false);
   const [editingGalleryItem, setEditingGalleryItem] = useState<GalleryItem | null>(null);
@@ -153,21 +155,10 @@ const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimoni
     e.target.value = ''; // Reset input
   };
 
-  // Check GitHub connection status and load galleries
+  // Check GitHub connection status
   useEffect(() => {
     if (isAuthenticated) {
       isGitHubConfigured().then(setGithubConnected);
-      
-      // Load galleries
-      fetch('/data/aboutGallery.json')
-        .then(res => res.json())
-        .then(data => setAboutGallery(data))
-        .catch(() => setAboutGallery([]));
-      
-      fetch('/data/facilityGallery.json')
-        .then(res => res.json())
-        .then(data => setFacilityGallery(data))
-        .catch(() => setFacilityGallery([]));
     }
   }, [isAuthenticated]);
 

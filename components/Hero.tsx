@@ -363,9 +363,9 @@ const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials, aboutGaller
              <h3 className="scroll-animate text-3xl md:text-5xl font-black text-center mb-12 uppercase">
                 Happy Families
              </h3>
-             <div className="flex overflow-x-auto gap-6 pb-8 snap-x no-scrollbar touch-pan-x cursor-grab active:cursor-grabbing">
+             <div className="flex overflow-x-scroll gap-6 pb-8 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                {testimonials.map((t, i) => (
-                 <div key={i} className="scroll-animate flex-shrink-0 w-[85vw] md:w-[400px] snap-center bg-gray-50 p-8 rounded-3xl border-4 border-gray-200 hover:border-cat-black transition-colors relative select-none">
+                 <div key={i} className="scroll-animate flex-shrink-0 w-[85vw] md:w-[400px] snap-center bg-gray-50 p-8 rounded-3xl border-4 border-gray-200 hover:border-cat-black transition-colors relative">
                     <Quote className="absolute top-6 right-6 text-cat-blue w-10 h-10 opacity-50" />
                     <div className="flex items-center gap-4 mb-6">
                       <img src={t.image} alt={t.name} className="w-14 h-14 rounded-full border-2 border-cat-black object-cover"/>

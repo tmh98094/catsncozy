@@ -50,16 +50,41 @@ const App: React.FC = () => {
       setIsDataLoaded(true);
     });
 
-    // Load galleries
-    fetch('/data/aboutGallery.json')
-      .then(res => res.json())
-      .then(data => setAboutGallery(data))
-      .catch(() => setAboutGallery(INITIAL_ABOUT_GALLERY));
+    // Load galleries from localStorage first, then try to fetch
+    const loadGalleries = async () => {
+      // Try localStorage first
+      const aboutLocal = localStorage.getItem('aboutGallery');
+      const facilityLocal = localStorage.getItem('facilityGallery');
+      
+      if (aboutLocal) {
+        try {
+          setAboutGallery(JSON.parse(aboutLocal));
+        } catch {
+          setAboutGallery(INITIAL_ABOUT_GALLERY);
+        }
+      } else {
+        // Fallback to fetching JSON file
+        fetch('/data/aboutGallery.json')
+          .then(res => res.json())
+          .then(data => setAboutGallery(data))
+          .catch(() => setAboutGallery(INITIAL_ABOUT_GALLERY));
+      }
+      
+      if (facilityLocal) {
+        try {
+          setFacilityGallery(JSON.parse(facilityLocal));
+        } catch {
+          setFacilityGallery(INITIAL_FACILITY_GALLERY);
+        }
+      } else {
+        fetch('/data/facilityGallery.json')
+          .then(res => res.json())
+          .then(data => setFacilityGallery(data))
+          .catch(() => setFacilityGallery(INITIAL_FACILITY_GALLERY));
+      }
+    };
     
-    fetch('/data/facilityGallery.json')
-      .then(res => res.json())
-      .then(data => setFacilityGallery(data))
-      .catch(() => setFacilityGallery(INITIAL_FACILITY_GALLERY));
+    loadGalleries();
   }, []);
 
   // Auto-save to GitHub/localStorage whenever data changes
@@ -81,17 +106,16 @@ const App: React.FC = () => {
     }
   }, [services, isDataLoaded]);
 
-  // Save galleries to local JSON files (for development)
+  // Save galleries
   useEffect(() => {
-    if (isDataLoaded && aboutGallery.length > 0) {
-      // In production, you'd save this to GitHub or a backend
-      localStorage.setItem('aboutGallery', JSON.stringify(aboutGallery));
+    if (isDataLoaded) {
+      saveData('aboutGallery', aboutGallery);
     }
   }, [aboutGallery, isDataLoaded]);
 
   useEffect(() => {
-    if (isDataLoaded && facilityGallery.length > 0) {
-      localStorage.setItem('facilityGallery', JSON.stringify(facilityGallery));
+    if (isDataLoaded) {
+      saveData('facilityGallery', facilityGallery);
     }
   }, [facilityGallery, isDataLoaded]);
 
@@ -169,6 +193,10 @@ const App: React.FC = () => {
           setTestimonials={setTestimonials}
           services={services}
           setServices={setServices}
+          aboutGallery={aboutGallery}
+          setAboutGallery={setAboutGallery}
+          facilityGallery={facilityGallery}
+          setFacilityGallery={setFacilityGallery}
         />
       )}
     </div>

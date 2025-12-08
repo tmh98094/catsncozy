@@ -1,19 +1,23 @@
 // Data Manager - Handles both localStorage and GitHub storage
-import { Cat, Testimonial, Service } from '../types';
+import { Cat, Testimonial, Service, GalleryItem } from '../types';
 import { getGitHubStorage } from './githubStorage';
 
-export type DataType = 'cats' | 'testimonials' | 'services';
+export type DataType = 'cats' | 'testimonials' | 'services' | 'aboutGallery' | 'facilityGallery';
 
 interface DataPaths {
   cats: string;
   testimonials: string;
   services: string;
+  aboutGallery: string;
+  facilityGallery: string;
 }
 
 const DATA_PATHS: DataPaths = {
   cats: 'data/cats.json',
   testimonials: 'data/testimonials.json',
-  services: 'data/services.json'
+  services: 'data/services.json',
+  aboutGallery: 'data/aboutGallery.json',
+  facilityGallery: 'data/facilityGallery.json'
 };
 
 /**

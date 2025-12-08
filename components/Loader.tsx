@@ -33,18 +33,27 @@ const Loader: React.FC<LoaderProps> = ({ onComplete, imageUrl }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress(prev => {
-        // If image not loaded yet, pause at 99%
-        if (!imageLoaded && prev >= 99) {
-          return 99;
+        // If image not loaded yet, cap at 95% to avoid jumping
+        if (!imageLoaded && prev >= 95) {
+          return 95;
         }
         
         // If image loaded, allow going to 100%
-        if (imageLoaded && prev >= 100) {
+        if (prev >= 100) {
           clearInterval(interval);
           return 100;
         }
 
-        return Math.min(prev + Math.floor(Math.random() * 5) + 2, 100);
+        // Calculate next progress
+        const increment = Math.floor(Math.random() * 5) + 2;
+        const next = prev + increment;
+        
+        // If image not loaded, don't exceed 95%
+        if (!imageLoaded) {
+          return Math.min(next, 95);
+        }
+        
+        return Math.min(next, 100);
       });
     }, 50);
 
