@@ -73,18 +73,6 @@
     ]
   },
   {
-    "id": 7,
-    "name": "Oliver",
-    "dateOfBirth": "2024-10-08",
-    "breed": "Tabby",
-    "gender": "Male",
-    "image": "https://images.unsplash.com/photo-1519052537078-e6302a4968ef?auto=format&fit=crop&q=80&w=800",
-    "personality": [
-      "Playful",
-      "Tiny"
-    ]
-  },
-  {
     "id": 8,
     "name": "Cleo",
     "dateOfBirth": "2017-12-08",
