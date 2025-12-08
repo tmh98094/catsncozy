@@ -6,7 +6,10 @@
     "breed": "Scottish Fold",
     "gender": "Female",
     "image": "https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&q=80&w=800",
-    "personality": ["Playful", "Cuddly"]
+    "personality": [
+      "Playful",
+      "Cuddly"
+    ]
   },
   {
     "id": 2,
@@ -15,7 +18,10 @@
     "breed": "Domestic Short Hair",
     "gender": "Female",
     "image": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=800",
-    "personality": ["Curious", "Energetic"]
+    "personality": [
+      "Curious",
+      "Energetic"
+    ]
   },
   {
     "id": 3,
@@ -24,7 +30,11 @@
     "breed": "Persian",
     "gender": "Male",
     "image": "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&q=80&w=800",
-    "personality": ["Lazy", "Foodie", "Chill"]
+    "personality": [
+      "Lazy",
+      "Foodie",
+      "Chill"
+    ]
   },
   {
     "id": 4,
@@ -33,7 +43,10 @@
     "breed": "Bombay",
     "gender": "Male",
     "image": "https://images.unsplash.com/photo-1513245543132-31f507417b26?auto=format&fit=crop&q=80&w=800",
-    "personality": ["Mysterious", "Quiet"]
+    "personality": [
+      "Mysterious",
+      "Quiet"
+    ]
   },
   {
     "id": 5,
@@ -42,7 +55,10 @@
     "breed": "Maine Coon",
     "gender": "Male",
     "image": "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&q=80&w=800",
-    "personality": ["Gentle Giant", "Friendly"]
+    "personality": [
+      "Gentle Giant",
+      "Friendly"
+    ]
   },
   {
     "id": 6,
@@ -51,7 +67,10 @@
     "breed": "Siamese",
     "gender": "Female",
     "image": "https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?auto=format&fit=crop&q=80&w=800",
-    "personality": ["Vocal", "Intelligent"]
+    "personality": [
+      "Vocal",
+      "Intelligent"
+    ]
   },
   {
     "id": 7,
@@ -60,7 +79,10 @@
     "breed": "Tabby",
     "gender": "Male",
     "image": "https://images.unsplash.com/photo-1519052537078-e6302a4968ef?auto=format&fit=crop&q=80&w=800",
-    "personality": ["Playful", "Tiny"]
+    "personality": [
+      "Playful",
+      "Tiny"
+    ]
   },
   {
     "id": 8,
@@ -69,6 +91,9 @@
     "breed": "Sphynx",
     "gender": "Female",
     "image": "https://images.unsplash.com/photo-1516280030429-27679b3dc9cf?auto=format&fit=crop&q=80&w=800",
-    "personality": ["Affectionate", "Warm"]
+    "personality": [
+      "Affectionate",
+      "Warm"
+    ]
   }
 ]
