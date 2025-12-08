@@ -226,9 +226,9 @@ const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials, aboutGaller
               CATS <span className="text-[#708dc5]" style={{ WebkitTextStroke: '3px #1a1a1a', textShadow: '6px 6px 0px #1a1a1a' }}>&</span><br />COZY
             </h1>
             
-            <div className="inline-block bg-cat-black/60 backdrop-blur-sm border-2 border-white/20 p-4 rounded-2xl max-w-xl mx-auto mt-6">
-              <p className="text-lg md:text-2xl font-bold text-white">
-                Your feline's favorite destination for luxury boarding and finding forever homes.
+            <div className="inline-block bg-gradient-to-r from-cat-yellow/95 via-cat-orange/95 to-cat-yellow/95 backdrop-blur-md border-4 border-cat-black p-5 md:p-6 rounded-3xl max-w-2xl mx-auto mt-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transform hover:scale-105 transition-transform duration-300">
+              <p className="text-lg md:text-2xl font-black text-cat-black leading-tight">
+                The Purrfect Place to Board Your Best Friend—and Adopt Your Next.
               </p>
             </div>
           </div>
