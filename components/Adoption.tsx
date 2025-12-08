@@ -127,14 +127,9 @@ Age: ${selectedCat ? calculateAge(selectedCat.dateOfBirth) : ''}
             </div>
             <div className="p-6 flex-grow flex flex-col justify-between">
               <div>
-                <div className="flex justify-between items-end mb-4">
-                  <div>
-                    <h3 className="text-3xl font-black mb-1">{cat.name}</h3>
-                    <p className="text-gray-500 font-bold uppercase text-sm">{cat.breed}</p>
-                  </div>
-                  <div className="bg-cat-blue p-2 rounded-full border-2 border-cat-black">
-                    <PawIcon />
-                  </div>
+                <div className="mb-4">
+                  <h3 className="text-3xl font-black mb-1">{cat.name}</h3>
+                  <p className="text-gray-500 font-bold uppercase text-sm">{cat.breed}</p>
                 </div>
                 
                 <div className="flex flex-wrap gap-2 mb-6">
