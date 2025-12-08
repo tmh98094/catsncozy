@@ -3,16 +3,18 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { PawPrint, Heart, Camera, MapPin, Menu, X, Star, Quote, Mail, Home, Activity, Utensils, Sparkles, Shield, ChevronDown, Phone, Clock, Navigation } from 'lucide-react';
 import { Modal } from './Modal';
-import { ContactFormData, Cat, Testimonial } from '../types';
-import { ABOUT_GALLERY, HERO_IMAGE_URL, FAQ_ITEMS, FACILITY_GALLERY } from '../constants';
+import { ContactFormData, Cat, Testimonial, GalleryItem } from '../types';
+import { HERO_IMAGE_URL, FAQ_ITEMS } from '../constants';
 
 interface HeroProps {
   onNavigate: (view: 'adopt' | 'board' | 'admin') => void;
   cats: Cat[];
   testimonials: Testimonial[];
+  aboutGallery: GalleryItem[];
+  facilityGallery: GalleryItem[];
 }
 
-const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials }) => {
+const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials, aboutGallery, facilityGallery }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
   const [activeAboutImage, setActiveAboutImage] = useState(0);
@@ -103,8 +105,8 @@ const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials }) => {
             const progress = Math.min(Math.max(scrolled / scrollableDistance, 0), 1);
             
             const imageIndex = Math.min(
-                Math.floor(progress * ABOUT_GALLERY.length), 
-                ABOUT_GALLERY.length - 1
+                Math.floor(progress * aboutGallery.length), 
+                aboutGallery.length - 1
             );
             setActiveAboutImage(imageIndex);
         }
@@ -310,14 +312,14 @@ const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials }) => {
 
                 {/* Changing Image Gallery - Order 1 on Mobile (Top) */}
                 <div className="order-1 lg:order-2 relative block w-full h-[30vh] lg:h-[600px] flex-shrink-0">
-                   {ABOUT_GALLERY.map((img, idx) => (
+                   {aboutGallery.map((item, idx) => (
                        <div 
-                         key={idx}
+                         key={item.id}
                          className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${idx === activeAboutImage ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
                        >
                            <div className="absolute inset-0 bg-cat-yellow rounded-[2rem] lg:rounded-[3rem] transform rotate-2 lg:rotate-3 border-4 border-cat-black"></div>
                            <img 
-                                src={img} 
+                                src={item.image} 
                                 alt={`Gallery ${idx}`} 
                                 className="absolute inset-0 w-full h-full object-cover rounded-[2rem] lg:rounded-[3rem] border-4 border-cat-black shadow-xl transform -rotate-2 lg:-rotate-3 transition-transform duration-500"
                             />
@@ -395,19 +397,19 @@ const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials }) => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {FACILITY_GALLERY.map((item, idx) => (
+            {facilityGallery.map((item, idx) => (
               <div 
                 key={item.id} 
                 className="scroll-animate group relative h-80 rounded-3xl overflow-hidden border-4 border-cat-black shadow-[4px_4px_0px_0px_#1a1a1a] hover:shadow-[8px_8px_0px_0px_#1a1a1a] hover:-translate-y-2 transition-all duration-300"
               >
                 <img 
                   src={item.image} 
-                  alt={item.caption} 
+                  alt={item.caption || 'Facility'} 
                   className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                  <h4 className="text-white font-black text-xl">{item.caption}</h4>
+                  <h4 className="text-white font-black text-xl">{item.caption || 'Our Facility'}</h4>
                 </div>
               </div>
             ))}

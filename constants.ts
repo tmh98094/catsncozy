@@ -7,7 +7,7 @@ export const CATS: Cat[] = [
   {
     id: 1,
     name: "Mochi",
-    age: "2 Years",
+    dateOfBirth: "2022-12-08",
     breed: "Scottish Fold",
     gender: "Female",
     image: "https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&q=80&w=800",
@@ -16,7 +16,7 @@ export const CATS: Cat[] = [
   {
     id: 2,
     name: "Luna",
-    age: "6 Months",
+    dateOfBirth: "2024-06-08",
     breed: "Domestic Short Hair",
     gender: "Female",
     image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=800",
@@ -25,7 +25,7 @@ export const CATS: Cat[] = [
   {
     id: 3,
     name: "Garfield",
-    age: "5 Years",
+    dateOfBirth: "2019-12-08",
     breed: "Persian",
     gender: "Male",
     image: "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&q=80&w=800",
@@ -34,7 +34,7 @@ export const CATS: Cat[] = [
   {
     id: 4,
     name: "Shadow",
-    age: "1 Year",
+    dateOfBirth: "2023-12-08",
     breed: "Bombay",
     gender: "Male",
     image: "https://images.unsplash.com/photo-1513245543132-31f507417b26?auto=format&fit=crop&q=80&w=800",
@@ -43,7 +43,7 @@ export const CATS: Cat[] = [
   {
     id: 5,
     name: "Sunny",
-    age: "3 Years",
+    dateOfBirth: "2021-12-08",
     breed: "Maine Coon",
     gender: "Male",
     image: "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&q=80&w=800",
@@ -52,7 +52,7 @@ export const CATS: Cat[] = [
   {
     id: 6,
     name: "Bella",
-    age: "4 Years",
+    dateOfBirth: "2020-12-08",
     breed: "Siamese",
     gender: "Female",
     image: "https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?auto=format&fit=crop&q=80&w=800",
@@ -61,7 +61,7 @@ export const CATS: Cat[] = [
   {
     id: 7,
     name: "Oliver",
-    age: "2 Months",
+    dateOfBirth: "2024-10-08",
     breed: "Tabby",
     gender: "Male",
     image: "https://images.unsplash.com/photo-1519052537078-e6302a4968ef?auto=format&fit=crop&q=80&w=800",
@@ -70,7 +70,7 @@ export const CATS: Cat[] = [
   {
     id: 8,
     name: "Cleo",
-    age: "7 Years",
+    dateOfBirth: "2017-12-08",
     breed: "Sphynx",
     gender: "Female",
     image: "https://images.unsplash.com/photo-1516280030429-27679b3dc9cf?auto=format&fit=crop&q=80&w=800",
@@ -116,15 +116,15 @@ export const SERVICES: Service[] = [
 ];
 
 export const ABOUT_GALLERY = [
-    "https://images.unsplash.com/photo-1511044568932-33842851211d?auto=format&fit=crop&q=80&w=1000",
-    "https://images.unsplash.com/photo-1608848461950-0fe51dfc41cb?auto=format&fit=crop&q=80&w=1000",
-    "https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?auto=format&fit=crop&q=80&w=1000",
-    "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&q=80&w=1000",
-    "https://images.unsplash.com/photo-1495360019602-e001c276375f?auto=format&fit=crop&q=80&w=1000",
-    "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=1000",
-    "https://images.unsplash.com/photo-1519052537078-e6302a4968ef?auto=format&fit=crop&q=80&w=1000",
-    "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&q=80&w=1000",
-    "https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?auto=format&fit=crop&q=80&w=1000"
+    { id: 1, image: "https://images.unsplash.com/photo-1511044568932-33842851211d?auto=format&fit=crop&q=80&w=1000" },
+    { id: 2, image: "https://images.unsplash.com/photo-1608848461950-0fe51dfc41cb?auto=format&fit=crop&q=80&w=1000" },
+    { id: 3, image: "https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?auto=format&fit=crop&q=80&w=1000" },
+    { id: 4, image: "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&q=80&w=1000" },
+    { id: 5, image: "https://images.unsplash.com/photo-1495360019602-e001c276375f?auto=format&fit=crop&q=80&w=1000" },
+    { id: 6, image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=1000" },
+    { id: 7, image: "https://images.unsplash.com/photo-1519052537078-e6302a4968ef?auto=format&fit=crop&q=80&w=1000" },
+    { id: 8, image: "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&q=80&w=1000" },
+    { id: 9, image: "https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?auto=format&fit=crop&q=80&w=1000" }
 ];
 
 export const TESTIMONIALS: Testimonial[] = [

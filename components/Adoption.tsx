@@ -1,9 +1,10 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { ArrowLeft, Filter, Heart, Check } from 'lucide-react';
+import { ArrowLeft, Heart, Check } from 'lucide-react';
 import { Cat, AdoptionFormData } from '../types';
 import { Modal } from './Modal';
+import { calculateAge } from '../utils/ageCalculator';
 
 interface AdoptionProps {
   onBack: () => void;
@@ -16,19 +17,11 @@ const Adoption: React.FC<AdoptionProps> = ({ onBack, cats }) => {
   
   const [selectedCat, setSelectedCat] = useState<Cat | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [activeCategory, setActiveCategory] = useState<string>('All');
   
   const [formData, setFormData] = useState<AdoptionFormData>({
     name: '', email: '', phone: '', message: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const filteredCats = activeCategory === 'All' 
-    ? cats 
-    : cats.filter(cat => cat.personality.includes(activeCategory) || cat.breed.includes(activeCategory));
-
-  const categories = ['All', 'Playful', 'Cuddly', 'Quiet', 'Energetic'];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -40,7 +33,7 @@ const Adoption: React.FC<AdoptionProps> = ({ onBack, cats }) => {
         ease: "power3.out"
       });
 
-      // Animate cards whenever filtered list changes
+      // Animate cards
       gsap.fromTo(".cat-card", 
         { y: 50, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: "power2.out", overwrite: true }
@@ -48,7 +41,7 @@ const Adoption: React.FC<AdoptionProps> = ({ onBack, cats }) => {
     }, containerRef);
 
     return () => ctx.revert();
-  }, [activeCategory]);
+  }, []);
 
   const handleAdoptClick = (cat: Cat) => {
     setSelectedCat(cat);
@@ -77,7 +70,7 @@ ${formData.message}
 ---------------------------
 *Cat Info:*
 Breed: ${selectedCat?.breed}
-Age: ${selectedCat?.age}
+Age: ${selectedCat ? calculateAge(selectedCat.dateOfBirth) : ''}
 `;
 
     const encodedText = encodeURIComponent(text);
@@ -100,29 +93,9 @@ Age: ${selectedCat?.age}
         >
           <ArrowLeft size={24} />
         </button>
-        <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tight text-center">Meet the Crew</h2>
-        <button 
-          onClick={() => setIsFilterOpen(!isFilterOpen)}
-          className={`bg-white border-2 border-cat-black p-2 rounded-full hover:bg-cat-black hover:text-white transition-all shadow-sm ${isFilterOpen ? 'bg-cat-black text-white' : ''}`}
-        >
-          <Filter size={24} />
-        </button>
+        <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tight text-center flex-1">Meet the Crew</h2>
+        <div className="w-10"></div>
       </header>
-
-      {/* Filter Bar */}
-      <div className={`overflow-hidden transition-all duration-300 ${isFilterOpen ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0'}`}>
-        <div className="flex gap-2 p-4 overflow-x-auto no-scrollbar bg-white border-b-4 border-cat-black">
-          {categories.map(cat => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 rounded-full font-bold border-2 border-cat-black whitespace-nowrap transition-colors ${activeCategory === cat ? 'bg-cat-red text-white' : 'bg-gray-100 hover:bg-gray-200'}`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-      </div>
 
       {/* Marquee Banner */}
       <div className="bg-cat-orange py-3 overflow-hidden border-b-4 border-cat-black transform -rotate-1 mt-4 mb-8">
@@ -137,7 +110,7 @@ Age: ${selectedCat?.age}
 
       {/* Grid */}
       <div ref={cardsRef} className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {filteredCats.map((cat) => (
+        {cats.map((cat) => (
           <div key={cat.id} className="cat-card group bg-white border-4 border-cat-black rounded-3xl overflow-hidden hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 transform hover:-translate-y-2 flex flex-col">
             <div className="relative h-72 overflow-hidden border-b-4 border-cat-black">
               <img 
@@ -146,7 +119,7 @@ Age: ${selectedCat?.age}
                 className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
               />
               <div className="absolute top-4 right-4 bg-cat-red text-white px-3 py-1 rounded-full font-bold text-sm border-2 border-cat-black rotate-3 shadow-md">
-                {cat.age}
+                {calculateAge(cat.dateOfBirth)}
               </div>
               <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur text-cat-black px-3 py-1 rounded-full font-bold text-xs border-2 border-cat-black">
                 {cat.gender}

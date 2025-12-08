@@ -2,7 +2,7 @@
 export interface Cat {
   id: number;
   name: string;
-  age: string;
+  dateOfBirth: string; // ISO date string
   breed: string;
   image: string;
   gender: 'Male' | 'Female';
@@ -47,4 +47,10 @@ export interface ContactFormData {
   email: string;
   subject: string;
   message: string;
+}
+
+export interface GalleryItem {
+  id: number;
+  image: string;
+  caption?: string;
 }

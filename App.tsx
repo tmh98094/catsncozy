@@ -5,8 +5,8 @@ import Hero from './components/Hero';
 import Adoption from './components/Adoption';
 import Boarding from './components/Boarding';
 import Admin from './components/Admin';
-import { ViewState, Cat, Testimonial, Service } from './types';
-import { CATS as INITIAL_CATS, TESTIMONIALS as INITIAL_TESTIMONIALS, SERVICES as INITIAL_SERVICES, HERO_IMAGE_URL } from './constants';
+import { ViewState, Cat, Testimonial, Service, GalleryItem } from './types';
+import { CATS as INITIAL_CATS, TESTIMONIALS as INITIAL_TESTIMONIALS, SERVICES as INITIAL_SERVICES, HERO_IMAGE_URL, ABOUT_GALLERY as INITIAL_ABOUT_GALLERY, FACILITY_GALLERY as INITIAL_FACILITY_GALLERY } from './constants';
 import { initGitHubStorage } from './utils/githubStorage';
 import { loadAllData, saveData } from './utils/dataManager';
 import gsap from 'gsap';
@@ -20,6 +20,8 @@ const App: React.FC = () => {
   const [cats, setCats] = useState<Cat[]>(INITIAL_CATS);
   const [testimonials, setTestimonials] = useState<Testimonial[]>(INITIAL_TESTIMONIALS);
   const [services, setServices] = useState<Service[]>(INITIAL_SERVICES);
+  const [aboutGallery, setAboutGallery] = useState<GalleryItem[]>(INITIAL_ABOUT_GALLERY);
+  const [facilityGallery, setFacilityGallery] = useState<GalleryItem[]>(INITIAL_FACILITY_GALLERY);
 
   // Initialize GitHub Storage on app start
   useEffect(() => {
@@ -47,6 +49,17 @@ const App: React.FC = () => {
       setServices(data.services);
       setIsDataLoaded(true);
     });
+
+    // Load galleries
+    fetch('/data/aboutGallery.json')
+      .then(res => res.json())
+      .then(data => setAboutGallery(data))
+      .catch(() => setAboutGallery(INITIAL_ABOUT_GALLERY));
+    
+    fetch('/data/facilityGallery.json')
+      .then(res => res.json())
+      .then(data => setFacilityGallery(data))
+      .catch(() => setFacilityGallery(INITIAL_FACILITY_GALLERY));
   }, []);
 
   // Auto-save to GitHub/localStorage whenever data changes
@@ -67,6 +80,20 @@ const App: React.FC = () => {
       saveData('services', services);
     }
   }, [services, isDataLoaded]);
+
+  // Save galleries to local JSON files (for development)
+  useEffect(() => {
+    if (isDataLoaded && aboutGallery.length > 0) {
+      // In production, you'd save this to GitHub or a backend
+      localStorage.setItem('aboutGallery', JSON.stringify(aboutGallery));
+    }
+  }, [aboutGallery, isDataLoaded]);
+
+  useEffect(() => {
+    if (isDataLoaded && facilityGallery.length > 0) {
+      localStorage.setItem('facilityGallery', JSON.stringify(facilityGallery));
+    }
+  }, [facilityGallery, isDataLoaded]);
 
   useEffect(() => {
     const updateCursor = (e: MouseEvent) => {
@@ -120,6 +147,8 @@ const App: React.FC = () => {
           onNavigate={(v) => navigateTo(v)} 
           cats={cats}
           testimonials={testimonials}
+          aboutGallery={aboutGallery}
+          facilityGallery={facilityGallery}
         />
       )}
 

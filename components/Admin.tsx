@@ -1,9 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
-import { Cat, Testimonial, Service } from '../types';
+import { Cat, Testimonial, Service, GalleryItem } from '../types';
 import { Trash2, Edit, Plus, X, Save, Image as ImageIcon, LogOut, ArrowLeft, Download, Upload, Loader2, Cloud, CloudOff, HardDrive } from 'lucide-react';
 import { Modal } from './Modal';
 import { isGitHubConfigured } from '../utils/dataManager';
+import { calculateAge } from '../utils/ageCalculator';
 
 interface AdminProps {
   cats: Cat[];
@@ -15,7 +16,15 @@ interface AdminProps {
   onBack: () => void;
 }
 
-type Tab = 'cats' | 'testimonials' | 'services';
+type Tab = 'cats' | 'testimonials' | 'services' | 'galleries';
+
+const BREED_OPTIONS = [
+  'Domestic Long Hair',
+  'Domestic Short Hair',
+  'British Short Hair',
+  'British Long Hair',
+  'Other'
+];
 
 const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimonials, services, setServices, onBack }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -27,10 +36,12 @@ const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimoni
   const [isCatModalOpen, setIsCatModalOpen] = useState(false);
   const [editingCat, setEditingCat] = useState<Cat | null>(null);
   const [catForm, setCatForm] = useState<Partial<Cat>>({
-    name: '', age: '', breed: '', gender: 'Male', image: '', personality: []
+    name: '', dateOfBirth: '', breed: '', gender: 'Male', image: '', personality: []
   });
   const [catPersonalityInput, setCatPersonalityInput] = useState('');
   const [uploadingCatImage, setUploadingCatImage] = useState(false);
+  const [breedSelection, setBreedSelection] = useState<string>('Domestic Short Hair');
+  const [customBreed, setCustomBreed] = useState<string>('');
 
   // Testimonial Form State
   const [isTestimonialModalOpen, setIsTestimonialModalOpen] = useState(false);
@@ -48,6 +59,15 @@ const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimoni
   });
   const [serviceImagesInput, setServiceImagesInput] = useState('');
   const [uploadingServiceImage, setUploadingServiceImage] = useState(false);
+
+  // Gallery State
+  const [aboutGallery, setAboutGallery] = useState<GalleryItem[]>([]);
+  const [facilityGallery, setFacilityGallery] = useState<GalleryItem[]>([]);
+  const [isAboutGalleryModalOpen, setIsAboutGalleryModalOpen] = useState(false);
+  const [isFacilityGalleryModalOpen, setIsFacilityGalleryModalOpen] = useState(false);
+  const [editingGalleryItem, setEditingGalleryItem] = useState<GalleryItem | null>(null);
+  const [galleryForm, setGalleryForm] = useState<Partial<GalleryItem>>({ image: '', caption: '' });
+  const [uploadingGalleryImage, setUploadingGalleryImage] = useState(false);
 
   // ImgBB API Configuration
   const IMGBB_API_KEY = 'a087caae14a41f654e82a8b975b9d157'; // Replace with your API key from https://api.imgbb.com/
@@ -133,10 +153,21 @@ const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimoni
     e.target.value = ''; // Reset input
   };
 
-  // Check GitHub connection status
+  // Check GitHub connection status and load galleries
   useEffect(() => {
     if (isAuthenticated) {
       isGitHubConfigured().then(setGithubConnected);
+      
+      // Load galleries
+      fetch('/data/aboutGallery.json')
+        .then(res => res.json())
+        .then(data => setAboutGallery(data))
+        .catch(() => setAboutGallery([]));
+      
+      fetch('/data/facilityGallery.json')
+        .then(res => res.json())
+        .then(data => setFacilityGallery(data))
+        .catch(() => setFacilityGallery([]));
     }
   }, [isAuthenticated]);
 
@@ -155,10 +186,20 @@ const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimoni
       setEditingCat(cat);
       setCatForm(cat);
       setCatPersonalityInput(cat.personality.join(', '));
+      // Check if breed is in predefined list
+      if (BREED_OPTIONS.includes(cat.breed)) {
+        setBreedSelection(cat.breed);
+        setCustomBreed('');
+      } else {
+        setBreedSelection('Other');
+        setCustomBreed(cat.breed);
+      }
     } else {
       setEditingCat(null);
-      setCatForm({ name: '', age: '', breed: '', gender: 'Male', image: '', personality: [] });
+      setCatForm({ name: '', dateOfBirth: '', breed: '', gender: 'Male', image: '', personality: [] });
       setCatPersonalityInput('');
+      setBreedSelection('Domestic Short Hair');
+      setCustomBreed('');
     }
     setIsCatModalOpen(true);
   };
@@ -166,7 +207,8 @@ const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimoni
   const saveCat = (e: React.FormEvent) => {
     e.preventDefault();
     const personalityArray = catPersonalityInput.split(',').map(s => s.trim()).filter(s => s);
-    const newCatData = { ...catForm, personality: personalityArray } as Cat;
+    const finalBreed = breedSelection === 'Other' ? customBreed : breedSelection;
+    const newCatData = { ...catForm, breed: finalBreed, personality: personalityArray } as Cat;
 
     if (editingCat) {
       setCats(cats.map(c => c.id === editingCat.id ? { ...newCatData, id: c.id } : c));
@@ -238,6 +280,53 @@ const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimoni
           setServices([...services, { ...newServiceData, id: Date.now() }]);
       }
       setIsServiceModalOpen(false);
+  };
+
+  // --- GALLERY CRUD ---
+  const openGalleryModal = (type: 'about' | 'facility', item?: GalleryItem) => {
+    if (item) {
+      setEditingGalleryItem(item);
+      setGalleryForm(item);
+    } else {
+      setEditingGalleryItem(null);
+      setGalleryForm({ image: '', caption: '' });
+    }
+    if (type === 'about') {
+      setIsAboutGalleryModalOpen(true);
+    } else {
+      setIsFacilityGalleryModalOpen(true);
+    }
+  };
+
+  const saveGalleryItem = (e: React.FormEvent, type: 'about' | 'facility') => {
+    e.preventDefault();
+    const newItem = { ...galleryForm } as GalleryItem;
+
+    if (type === 'about') {
+      if (editingGalleryItem) {
+        setAboutGallery(aboutGallery.map(item => item.id === editingGalleryItem.id ? { ...newItem, id: item.id } : item));
+      } else {
+        setAboutGallery([...aboutGallery, { ...newItem, id: Date.now() }]);
+      }
+      setIsAboutGalleryModalOpen(false);
+    } else {
+      if (editingGalleryItem) {
+        setFacilityGallery(facilityGallery.map(item => item.id === editingGalleryItem.id ? { ...newItem, id: item.id } : item));
+      } else {
+        setFacilityGallery([...facilityGallery, { ...newItem, id: Date.now() }]);
+      }
+      setIsFacilityGalleryModalOpen(false);
+    }
+  };
+
+  const deleteGalleryItem = (id: number, type: 'about' | 'facility') => {
+    if (confirm('Delete this image?')) {
+      if (type === 'about') {
+        setAboutGallery(aboutGallery.filter(item => item.id !== id));
+      } else {
+        setFacilityGallery(facilityGallery.filter(item => item.id !== id));
+      }
+    }
   };
 
   if (!isAuthenticated) {
@@ -342,6 +431,12 @@ const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimoni
           >
             Manage Services
           </button>
+          <button 
+            onClick={() => setActiveTab('galleries')}
+            className={`pb-4 px-4 font-bold border-b-4 transition-colors whitespace-nowrap ${activeTab === 'galleries' ? 'border-cat-yellow text-cat-black' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
+          >
+            Manage Galleries
+          </button>
         </div>
       </header>
 
@@ -370,7 +465,7 @@ const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimoni
                       </div>
                     </div>
                     <h3 className="text-xl font-black">{cat.name}</h3>
-                    <p className="text-gray-500 text-sm">{cat.breed} • {cat.age}</p>
+                    <p className="text-gray-500 text-sm">{cat.breed} • {calculateAge(cat.dateOfBirth)}</p>
                     <div className="flex flex-wrap gap-1 mt-2">
                       {cat.personality.map((p, i) => (
                         <span key={i} className="text-xs bg-gray-100 px-2 py-1 rounded">{p}</span>
@@ -446,6 +541,76 @@ const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimoni
                  </div>
             </div>
         )}
+
+        {/* --- GALLERIES TAB --- */}
+        {activeTab === 'galleries' && (
+          <div className="space-y-12">
+            {/* About Us Gallery */}
+            <div>
+              <div className="flex justify-between items-center mb-8">
+                <div>
+                  <h2 className="text-3xl font-black">About Us Gallery</h2>
+                  <p className="text-gray-500 font-bold text-sm">Scrolling gallery on homepage</p>
+                </div>
+                <button 
+                  onClick={() => openGalleryModal('about')}
+                  className="bg-cat-black text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-cat-yellow hover:text-black transition-colors"
+                >
+                  <Plus /> Add Image
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {aboutGallery.map(item => (
+                  <div key={item.id} className="relative group bg-white rounded-xl overflow-hidden border-2 border-gray-200 hover:border-cat-black transition-colors">
+                    <div className="aspect-square">
+                      <img src={item.image} alt="Gallery" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                      <button onClick={() => openGalleryModal('about', item)} className="p-2 bg-white rounded-full hover:bg-cat-yellow"><Edit size={16} /></button>
+                      <button onClick={() => deleteGalleryItem(item.id, 'about')} className="p-2 bg-white rounded-full text-red-500 hover:bg-red-50"><Trash2 size={16} /></button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Facility Gallery */}
+            <div>
+              <div className="flex justify-between items-center mb-8">
+                <div>
+                  <h2 className="text-3xl font-black">Facility Gallery</h2>
+                  <p className="text-gray-500 font-bold text-sm">Showcase your facility with captions</p>
+                </div>
+                <button 
+                  onClick={() => openGalleryModal('facility')}
+                  className="bg-cat-black text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-cat-orange hover:text-black transition-colors"
+                >
+                  <Plus /> Add Image
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {facilityGallery.map(item => (
+                  <div key={item.id} className="relative group bg-white rounded-xl overflow-hidden border-2 border-gray-200 hover:border-cat-black transition-colors">
+                    <div className="h-64">
+                      <img src={item.image} alt={item.caption} className="w-full h-full object-cover" />
+                    </div>
+                    {item.caption && (
+                      <div className="p-4 bg-white">
+                        <p className="font-bold text-sm">{item.caption}</p>
+                      </div>
+                    )}
+                    <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button onClick={() => openGalleryModal('facility', item)} className="p-2 bg-white rounded-full hover:bg-cat-yellow shadow-lg"><Edit size={16} /></button>
+                      <button onClick={() => deleteGalleryItem(item.id, 'facility')} className="p-2 bg-white rounded-full text-red-500 hover:bg-red-50 shadow-lg"><Trash2 size={16} /></button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* --- CAT MODAL --- */}
@@ -461,14 +626,40 @@ const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimoni
               <input required value={catForm.name} onChange={e => setCatForm({...catForm, name: e.target.value})} className="w-full p-3 border-2 border-gray-200 rounded-xl" />
             </div>
             <div>
-              <label className="block text-sm font-bold uppercase mb-1">Age</label>
-              <input required value={catForm.age} onChange={e => setCatForm({...catForm, age: e.target.value})} className="w-full p-3 border-2 border-gray-200 rounded-xl" />
+              <label className="block text-sm font-bold uppercase mb-1">Date of Birth</label>
+              <input 
+                required 
+                type="date" 
+                value={catForm.dateOfBirth} 
+                onChange={e => setCatForm({...catForm, dateOfBirth: e.target.value})} 
+                className="w-full p-3 border-2 border-gray-200 rounded-xl" 
+              />
+              {catForm.dateOfBirth && (
+                <p className="text-xs text-gray-500 mt-1">Age: {calculateAge(catForm.dateOfBirth)}</p>
+              )}
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
              <div>
               <label className="block text-sm font-bold uppercase mb-1">Breed</label>
-              <input required value={catForm.breed} onChange={e => setCatForm({...catForm, breed: e.target.value})} className="w-full p-3 border-2 border-gray-200 rounded-xl" />
+              <select 
+                value={breedSelection} 
+                onChange={e => setBreedSelection(e.target.value)} 
+                className="w-full p-3 border-2 border-gray-200 rounded-xl bg-white mb-2"
+              >
+                {BREED_OPTIONS.map(breed => (
+                  <option key={breed} value={breed}>{breed}</option>
+                ))}
+              </select>
+              {breedSelection === 'Other' && (
+                <input 
+                  required
+                  value={customBreed} 
+                  onChange={e => setCustomBreed(e.target.value)} 
+                  className="w-full p-3 border-2 border-gray-200 rounded-xl" 
+                  placeholder="Enter breed name..."
+                />
+              )}
             </div>
             <div>
               <label className="block text-sm font-bold uppercase mb-1">Gender</label>
@@ -720,6 +911,157 @@ const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimoni
                 UPDATE SERVICE
               </button>
           </form>
+      </Modal>
+
+      {/* --- ABOUT GALLERY MODAL --- */}
+      <Modal
+        isOpen={isAboutGalleryModalOpen}
+        onClose={() => setIsAboutGalleryModalOpen(false)}
+        title={editingGalleryItem ? "Edit Gallery Image" : "Add Gallery Image"}
+      >
+        <form onSubmit={(e) => saveGalleryItem(e, 'about')} className="space-y-4">
+          <div>
+            <label className="block text-sm font-bold uppercase mb-1">Image</label>
+            <div className="space-y-2">
+              <div className="flex gap-2">
+                <input 
+                  value={galleryForm.image} 
+                  onChange={e => setGalleryForm({...galleryForm, image: e.target.value})} 
+                  className="flex-1 p-3 border-2 border-gray-200 rounded-xl" 
+                  placeholder="Paste URL or upload below..." 
+                />
+                {galleryForm.image && (
+                  <button
+                    type="button"
+                    onClick={() => setGalleryForm({...galleryForm, image: ''})}
+                    className="px-4 py-3 bg-gray-100 hover:bg-gray-200 rounded-xl border-2 border-gray-200"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+              
+              <label className="block">
+                <div className={`border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-colors ${uploadingGalleryImage ? 'border-cat-blue bg-blue-50' : 'border-gray-300 hover:border-cat-black hover:bg-gray-50'}`}>
+                  {uploadingGalleryImage ? (
+                    <div className="flex items-center justify-center gap-2 text-cat-blue">
+                      <Loader2 className="animate-spin" size={20} />
+                      <span className="font-bold">Uploading...</span>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center gap-2">
+                      <Upload size={24} className="text-gray-400" />
+                      <span className="font-bold text-sm">Click to upload image</span>
+                    </div>
+                  )}
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  disabled={uploadingGalleryImage}
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const url = await uploadImage(file, setUploadingGalleryImage);
+                      if (url) setGalleryForm({...galleryForm, image: url});
+                    }
+                    e.target.value = '';
+                  }}
+                />
+              </label>
+
+              {galleryForm.image && (
+                <div className="relative w-full h-48 rounded-xl overflow-hidden border-2 border-gray-200">
+                  <img src={galleryForm.image} alt="Preview" className="w-full h-full object-cover" />
+                </div>
+              )}
+            </div>
+          </div>
+          <button className="w-full bg-cat-black text-white font-bold py-4 rounded-xl mt-4 hover:bg-gray-800">
+            SAVE IMAGE
+          </button>
+        </form>
+      </Modal>
+
+      {/* --- FACILITY GALLERY MODAL --- */}
+      <Modal
+        isOpen={isFacilityGalleryModalOpen}
+        onClose={() => setIsFacilityGalleryModalOpen(false)}
+        title={editingGalleryItem ? "Edit Facility Image" : "Add Facility Image"}
+      >
+        <form onSubmit={(e) => saveGalleryItem(e, 'facility')} className="space-y-4">
+          <div>
+            <label className="block text-sm font-bold uppercase mb-1">Image</label>
+            <div className="space-y-2">
+              <div className="flex gap-2">
+                <input 
+                  value={galleryForm.image} 
+                  onChange={e => setGalleryForm({...galleryForm, image: e.target.value})} 
+                  className="flex-1 p-3 border-2 border-gray-200 rounded-xl" 
+                  placeholder="Paste URL or upload below..." 
+                />
+                {galleryForm.image && (
+                  <button
+                    type="button"
+                    onClick={() => setGalleryForm({...galleryForm, image: ''})}
+                    className="px-4 py-3 bg-gray-100 hover:bg-gray-200 rounded-xl border-2 border-gray-200"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+              
+              <label className="block">
+                <div className={`border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-colors ${uploadingGalleryImage ? 'border-cat-blue bg-blue-50' : 'border-gray-300 hover:border-cat-black hover:bg-gray-50'}`}>
+                  {uploadingGalleryImage ? (
+                    <div className="flex items-center justify-center gap-2 text-cat-blue">
+                      <Loader2 className="animate-spin" size={20} />
+                      <span className="font-bold">Uploading...</span>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center gap-2">
+                      <Upload size={24} className="text-gray-400" />
+                      <span className="font-bold text-sm">Click to upload image</span>
+                    </div>
+                  )}
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  disabled={uploadingGalleryImage}
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const url = await uploadImage(file, setUploadingGalleryImage);
+                      if (url) setGalleryForm({...galleryForm, image: url});
+                    }
+                    e.target.value = '';
+                  }}
+                />
+              </label>
+
+              {galleryForm.image && (
+                <div className="relative w-full h-48 rounded-xl overflow-hidden border-2 border-gray-200">
+                  <img src={galleryForm.image} alt="Preview" className="w-full h-full object-cover" />
+                </div>
+              )}
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-bold uppercase mb-1">Caption (Optional)</label>
+            <input 
+              value={galleryForm.caption || ''} 
+              onChange={e => setGalleryForm({...galleryForm, caption: e.target.value})} 
+              className="w-full p-3 border-2 border-gray-200 rounded-xl" 
+              placeholder="e.g., Spacious Play Area"
+            />
+          </div>
+          <button className="w-full bg-cat-black text-white font-bold py-4 rounded-xl mt-4 hover:bg-gray-800">
+            SAVE IMAGE
+          </button>
+        </form>
       </Modal>
     </div>
   );
