@@ -95,5 +95,17 @@
       "Affectionate",
       "Warm"
     ]
+  },
+  {
+    "name": "Test",
+    "age": "5 Years",
+    "breed": "LSH",
+    "gender": "Male",
+    "image": "https://i.ibb.co/zTHzdBL9/Card3.png",
+    "personality": [
+      "sweet",
+      "calm"
+    ],
+    "id": 1765152691717
   }
 ]
