@@ -9,8 +9,8 @@ export default {
     extend: {
       colors: {
         'cat-blue': '#8CE4FF',
-        'cat-yellow': '#FEEE91',
-        'cat-orange': '#FFA239',
+        'cat-yellow': '#ffc22f',
+        'cat-orange': '#f58b05',
         'cat-red': '#FF5656',
         'cat-black': '#1a1a1a',
       },

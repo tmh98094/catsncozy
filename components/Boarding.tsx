@@ -99,7 +99,7 @@ const Boarding: React.FC<BoardingProps> = ({ onBack, services }) => {
           className="board-hero-img w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-cat-blue/30 flex items-center justify-center">
-            <div className="bg-white/90 backdrop-blur-md p-8 md:p-12 border-4 border-cat-black rounded-3xl shadow-[16px_16px_0px_0px_#FFA239] transform -rotate-2">
+            <div className="bg-white/90 backdrop-blur-md p-8 md:p-12 border-4 border-cat-black rounded-3xl shadow-[16px_16px_0px_0px_#f58b05] transform -rotate-2">
                 <h1 className="text-5xl md:text-7xl font-black text-center text-cat-black uppercase leading-none">
                     Cat<br/>Vacation
                 </h1>
