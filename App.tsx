@@ -8,7 +8,7 @@ import Admin from './components/Admin';
 import { ViewState, Cat, Testimonial, Service, GalleryItem } from './types';
 import { CATS as INITIAL_CATS, TESTIMONIALS as INITIAL_TESTIMONIALS, SERVICES as INITIAL_SERVICES, HERO_IMAGE_URL, ABOUT_GALLERY as INITIAL_ABOUT_GALLERY, FACILITY_GALLERY as INITIAL_FACILITY_GALLERY } from './constants';
 import { initGitHubStorage } from './utils/githubStorage';
-import { loadAllData, saveData } from './utils/dataManager';
+import { loadAllData, saveData, flushPendingSaves } from './utils/dataManager';
 import gsap from 'gsap';
 
 const App: React.FC = () => {
@@ -124,8 +124,18 @@ const App: React.FC = () => {
       setCursorPosition({ x: e.clientX, y: e.clientY });
     };
 
+    // Flush pending saves when user leaves the page
+    const handleBeforeUnload = () => {
+      flushPendingSaves();
+    };
+
     window.addEventListener('mousemove', updateCursor);
-    return () => window.removeEventListener('mousemove', updateCursor);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    
+    return () => {
+      window.removeEventListener('mousemove', updateCursor);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
   }, []);
 
   // Simple custom cursor effect

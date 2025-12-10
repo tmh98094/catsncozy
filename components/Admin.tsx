@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Cat, Testimonial, Service, GalleryItem } from '../types';
 import { Trash2, Edit, Plus, X, Save, Image as ImageIcon, LogOut, ArrowLeft, Download, Upload, Loader2, Cloud, CloudOff, HardDrive } from 'lucide-react';
 import { Modal } from './Modal';
-import { isGitHubConfigured } from '../utils/dataManager';
+import { isGitHubConfigured, flushPendingSaves } from '../utils/dataManager';
 import { calculateAge } from '../utils/ageCalculator';
 
 interface AdminProps {
@@ -70,6 +70,7 @@ const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimoni
   const [editingGalleryItem, setEditingGalleryItem] = useState<GalleryItem | null>(null);
   const [galleryForm, setGalleryForm] = useState<Partial<GalleryItem>>({ image: '', caption: '' });
   const [uploadingGalleryImage, setUploadingGalleryImage] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   // ImgBB API Configuration
   const IMGBB_API_KEY = 'a087caae14a41f654e82a8b975b9d157'; // Replace with your API key from https://api.imgbb.com/
@@ -320,6 +321,19 @@ const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimoni
     }
   };
 
+  // Manual save function
+  const handleManualSave = async () => {
+    setIsSaving(true);
+    try {
+      await flushPendingSaves();
+      alert('All changes saved to GitHub successfully!');
+    } catch (error) {
+      alert('Error saving to GitHub. Changes are saved locally.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-cat-black flex items-center justify-center p-4">
@@ -377,6 +391,15 @@ const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimoni
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <button 
+              onClick={handleManualSave}
+              disabled={isSaving}
+              className="flex items-center gap-2 bg-green-500 text-white font-bold hover:bg-green-600 disabled:bg-gray-400 px-4 py-2 rounded-xl transition-colors"
+              title="Save all changes to GitHub now"
+            >
+              {isSaving ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
+              <span className="hidden md:inline">{isSaving ? 'Saving...' : 'Save Now'}</span>
+            </button>
             <button 
               onClick={exportData}
               className="flex items-center gap-2 bg-cat-blue text-cat-black font-bold hover:bg-cat-yellow px-4 py-2 rounded-xl transition-colors"
