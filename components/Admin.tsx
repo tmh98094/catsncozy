@@ -4,6 +4,7 @@ import { Cat, Testimonial, Service, GalleryItem } from '../types';
 import { Trash2, Edit, Plus, X, Save, Image as ImageIcon, LogOut, ArrowLeft, Download, Upload, Loader2, Cloud, CloudOff, HardDrive } from 'lucide-react';
 import { Modal } from './Modal';
 import { isGitHubConfigured, flushPendingSaves } from '../utils/dataManager';
+import { isSupabaseConfigured } from '../utils/supabaseDataManager';
 import { calculateAge } from '../utils/ageCalculator';
 
 interface AdminProps {
@@ -35,6 +36,7 @@ const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimoni
   const [password, setPassword] = useState('');
   const [activeTab, setActiveTab] = useState<Tab>('cats');
   const [githubConnected, setGithubConnected] = useState<boolean | null>(null);
+  const [supabaseConnected, setSupabaseConnected] = useState<boolean | null>(null);
   
   // Cat Form State
   const [isCatModalOpen, setIsCatModalOpen] = useState(false);
@@ -156,10 +158,11 @@ const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimoni
     e.target.value = ''; // Reset input
   };
 
-  // Check GitHub connection status
+  // Check connection status
   useEffect(() => {
     if (isAuthenticated) {
       isGitHubConfigured().then(setGithubConnected);
+      isSupabaseConfigured().then(setSupabaseConnected);
     }
   }, [isAuthenticated]);
 
@@ -373,21 +376,38 @@ const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimoni
             </button>
             <div>
               <h1 className="text-2xl font-black uppercase">Admin Dashboard</h1>
-              {githubConnected !== null && (
-                <div className="flex items-center gap-2 mt-1">
-                  {githubConnected ? (
-                    <>
-                      <Cloud size={14} className="text-green-500" />
-                      <span className="text-xs font-bold text-green-600">GitHub Connected</span>
-                    </>
-                  ) : (
-                    <>
-                      <HardDrive size={14} className="text-orange-500" />
-                      <span className="text-xs font-bold text-orange-600">Local Storage Only</span>
-                    </>
-                  )}
-                </div>
-              )}
+              <div className="flex items-center gap-4 mt-1">
+                {supabaseConnected !== null && (
+                  <div className="flex items-center gap-2">
+                    {supabaseConnected ? (
+                      <>
+                        <Cloud size={14} className="text-green-500" />
+                        <span className="text-xs font-bold text-green-600">Supabase Connected</span>
+                      </>
+                    ) : (
+                      <>
+                        <CloudOff size={14} className="text-gray-400" />
+                        <span className="text-xs font-bold text-gray-500">Supabase Offline</span>
+                      </>
+                    )}
+                  </div>
+                )}
+                {githubConnected !== null && !supabaseConnected && (
+                  <div className="flex items-center gap-2">
+                    {githubConnected ? (
+                      <>
+                        <Cloud size={14} className="text-blue-500" />
+                        <span className="text-xs font-bold text-blue-600">GitHub Fallback</span>
+                      </>
+                    ) : (
+                      <>
+                        <HardDrive size={14} className="text-orange-500" />
+                        <span className="text-xs font-bold text-orange-600">Local Storage Only</span>
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           <div className="flex items-center gap-2">
