@@ -1,7 +1,7 @@
 
 import { Cat, Service, Testimonial } from './types';
 
-export const HERO_IMAGE_URL = "https://i.ibb.co/6JncStMp/Gemini-Generated-Image-41zkbo41zkbo41zk.png";
+export const HERO_IMAGE_URL = "/images/catshero.png";
 
 export const CATS: Cat[] = [
   {
@@ -86,8 +86,8 @@ export const SERVICES: Service[] = [
     description: "Private suite with window view, soft bedding, and daily playtime.",
     icon: "bed",
     images: [
-        "https://images.unsplash.com/photo-1541781777631-faaf8221835f?auto=format&fit=crop&q=80&w=800",
-        "https://images.unsplash.com/photo-1513245543132-31f507417b26?auto=format&fit=crop&q=80&w=800"
+      "https://images.unsplash.com/photo-1541781777631-faaf8221835f?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1513245543132-31f507417b26?auto=format&fit=crop&q=80&w=800"
     ]
   },
   {
@@ -97,9 +97,9 @@ export const SERVICES: Service[] = [
     description: "Larger suite, gourmet treats, grooming session, and video calls.",
     icon: "crown",
     images: [
-        "https://images.unsplash.com/photo-1596272875729-ed2ff7d6d9c5?auto=format&fit=crop&q=80&w=800",
-        "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=800",
-        "https://images.unsplash.com/photo-1519052537078-e6302a4968ef?auto=format&fit=crop&q=80&w=800"
+      "https://images.unsplash.com/photo-1596272875729-ed2ff7d6d9c5?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1519052537078-e6302a4968ef?auto=format&fit=crop&q=80&w=800"
     ]
   },
   {
@@ -109,22 +109,22 @@ export const SERVICES: Service[] = [
     description: "Social play for active cats. Perfect for busy work days.",
     icon: "sun",
     images: [
-        "https://images.unsplash.com/photo-1545249390-6bdfa286032f?auto=format&fit=crop&q=80&w=800",
-        "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&q=80&w=800"
+      "https://images.unsplash.com/photo-1545249390-6bdfa286032f?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&q=80&w=800"
     ]
   }
 ];
 
 export const ABOUT_GALLERY = [
-    { id: 1, image: "https://images.unsplash.com/photo-1511044568932-33842851211d?auto=format&fit=crop&q=80&w=1000" },
-    { id: 2, image: "https://images.unsplash.com/photo-1608848461950-0fe51dfc41cb?auto=format&fit=crop&q=80&w=1000" },
-    { id: 3, image: "https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?auto=format&fit=crop&q=80&w=1000" },
-    { id: 4, image: "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&q=80&w=1000" },
-    { id: 5, image: "https://images.unsplash.com/photo-1495360019602-e001c276375f?auto=format&fit=crop&q=80&w=1000" },
-    { id: 6, image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=1000" },
-    { id: 7, image: "https://images.unsplash.com/photo-1519052537078-e6302a4968ef?auto=format&fit=crop&q=80&w=1000" },
-    { id: 8, image: "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&q=80&w=1000" },
-    { id: 9, image: "https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?auto=format&fit=crop&q=80&w=1000" }
+  { id: 1, image: "https://images.unsplash.com/photo-1511044568932-33842851211d?auto=format&fit=crop&q=80&w=1000" },
+  { id: 2, image: "https://images.unsplash.com/photo-1608848461950-0fe51dfc41cb?auto=format&fit=crop&q=80&w=1000" },
+  { id: 3, image: "https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?auto=format&fit=crop&q=80&w=1000" },
+  { id: 4, image: "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&q=80&w=1000" },
+  { id: 5, image: "https://images.unsplash.com/photo-1495360019602-e001c276375f?auto=format&fit=crop&q=80&w=1000" },
+  { id: 6, image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=1000" },
+  { id: 7, image: "https://images.unsplash.com/photo-1519052537078-e6302a4968ef?auto=format&fit=crop&q=80&w=1000" },
+  { id: 8, image: "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&q=80&w=1000" },
+  { id: 9, image: "https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?auto=format&fit=crop&q=80&w=1000" }
 ];
 
 export const TESTIMONIALS: Testimonial[] = [

@@ -5,9 +5,10 @@ import gsap from 'gsap';
 interface LoaderProps {
   onComplete: () => void;
   imageUrl?: string;
+  dataLoaded?: boolean;
 }
 
-const Loader: React.FC<LoaderProps> = ({ onComplete, imageUrl }) => {
+const Loader: React.FC<LoaderProps> = ({ onComplete, imageUrl, dataLoaded = true }) => {
   const [progress, setProgress] = useState(0);
   const [imageLoaded, setImageLoaded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -25,6 +26,11 @@ const Loader: React.FC<LoaderProps> = ({ onComplete, imageUrl }) => {
         // Fallback if image fails, just proceed
         setImageLoaded(true);
       };
+      const timer = setTimeout(() => {
+        setImageLoaded(true);
+      }, 3000); // 3 seconds max wait for image
+
+      return () => clearTimeout(timer);
     } else {
       setImageLoaded(true);
     }
@@ -37,7 +43,7 @@ const Loader: React.FC<LoaderProps> = ({ onComplete, imageUrl }) => {
         if (!imageLoaded && prev >= 95) {
           return 95;
         }
-        
+
         // If image loaded, allow going to 100%
         if (prev >= 100) {
           clearInterval(interval);
@@ -47,12 +53,12 @@ const Loader: React.FC<LoaderProps> = ({ onComplete, imageUrl }) => {
         // Calculate next progress
         const increment = Math.floor(Math.random() * 5) + 2;
         const next = prev + increment;
-        
+
         // If image not loaded, don't exceed 95%
         if (!imageLoaded) {
           return Math.min(next, 95);
         }
-        
+
         return Math.min(next, 100);
       });
     }, 50);
@@ -72,16 +78,16 @@ const Loader: React.FC<LoaderProps> = ({ onComplete, imageUrl }) => {
         duration: 0.5,
         ease: "back.in(1.7)"
       })
-      .to(containerRef.current, {
-        yPercent: -100,
-        duration: 0.8,
-        ease: "power4.inOut"
-      });
+        .to(containerRef.current, {
+          yPercent: -100,
+          duration: 0.8,
+          ease: "power4.inOut"
+        });
     }
   }, [progress, onComplete]);
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-cat-red text-white"
     >

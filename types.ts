@@ -5,6 +5,7 @@ export interface Cat {
   dateOfBirth: string; // ISO date string
   breed: string;
   image: string;
+  images?: string[];
   gender: 'Male' | 'Female';
   personality: string[];
 }
@@ -18,7 +19,7 @@ export interface Service {
   images: string[];
 }
 
-export type ViewState = 'loading' | 'home' | 'adopt' | 'board' | 'admin';
+export type ViewState = 'loading' | 'home' | 'adopt' | 'board' | 'grooming' | 'about' | 'admin';
 
 export interface AdoptionFormData {
   name: string;

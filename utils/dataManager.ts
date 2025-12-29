@@ -30,7 +30,7 @@ const DATA_PATHS: DataPaths = {
  */
 export async function loadData<T>(type: DataType, fallbackData: T): Promise<T> {
   const github = getGitHubStorage();
-  
+
   if (github) {
     try {
       const data = await github.readJSON<T>(DATA_PATHS[type]);
@@ -96,11 +96,11 @@ async function performGitHubSave<T>(type: DataType): Promise<boolean> {
     try {
       const message = `Update ${type} - ${new Date().toLocaleString()}`;
       await github.writeJSON(DATA_PATHS[type], data, message);
-      
+
       // Clear pending save
       pendingSaves.delete(type);
       saveTimeouts.delete(type);
-      
+
       console.log(`✅ Saved ${type} to GitHub`);
       return true;
     } catch (error) {
@@ -117,7 +117,7 @@ async function performGitHubSave<T>(type: DataType): Promise<boolean> {
  */
 export async function flushPendingSaves(): Promise<void> {
   const promises: Promise<boolean>[] = [];
-  
+
   for (const [type] of pendingSaves) {
     // Clear timeout and save immediately
     const timeout = saveTimeouts.get(type);
@@ -126,7 +126,7 @@ export async function flushPendingSaves(): Promise<void> {
     }
     promises.push(performGitHubSave(type));
   }
-  
+
   await Promise.all(promises);
 }
 
@@ -137,18 +137,24 @@ export async function loadAllData(fallbackData: {
   cats: Cat[];
   testimonials: Testimonial[];
   services: Service[];
+  aboutGallery: GalleryItem[];
+  facilityGallery: GalleryItem[];
 }): Promise<{
   cats: Cat[];
   testimonials: Testimonial[];
   services: Service[];
+  aboutGallery: GalleryItem[];
+  facilityGallery: GalleryItem[];
 }> {
-  const [cats, testimonials, services] = await Promise.all([
+  const [cats, testimonials, services, aboutGallery, facilityGallery] = await Promise.all([
     loadData('cats', fallbackData.cats),
     loadData('testimonials', fallbackData.testimonials),
-    loadData('services', fallbackData.services)
+    loadData('services', fallbackData.services),
+    loadData('aboutGallery', fallbackData.aboutGallery),
+    loadData('facilityGallery', fallbackData.facilityGallery)
   ]);
 
-  return { cats, testimonials, services };
+  return { cats, testimonials, services, aboutGallery, facilityGallery };
 }
 
 /**
@@ -157,7 +163,7 @@ export async function loadAllData(fallbackData: {
 export async function isGitHubConfigured(): Promise<boolean> {
   const github = getGitHubStorage();
   if (!github) return false;
-  
+
   try {
     return await github.testConnection();
   } catch {

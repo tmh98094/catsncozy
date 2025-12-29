@@ -4,7 +4,10 @@ import Loader from './components/Loader';
 import Hero from './components/Hero';
 import Adoption from './components/Adoption';
 import Boarding from './components/Boarding';
+import Grooming from './components/Grooming';
+import About from './components/About';
 import Admin from './components/Admin';
+import FixedBottomNav from './components/FixedBottomNav';
 import { ViewState, Cat, Testimonial, Service, GalleryItem } from './types';
 import { CATS as INITIAL_CATS, TESTIMONIALS as INITIAL_TESTIMONIALS, SERVICES as INITIAL_SERVICES, HERO_IMAGE_URL, ABOUT_GALLERY as INITIAL_ABOUT_GALLERY, FACILITY_GALLERY as INITIAL_FACILITY_GALLERY } from './constants';
 import { initGitHubStorage } from './utils/githubStorage';
@@ -50,7 +53,7 @@ const App: React.FC = () => {
           about_gallery: INITIAL_ABOUT_GALLERY,
           facility_gallery: INITIAL_FACILITY_GALLERY
         });
-        
+
         setCats(data.cats);
         setTestimonials(data.testimonials);
         setServices(data.services);
@@ -66,34 +69,18 @@ const App: React.FC = () => {
         const data = await loadAllData({
           cats: INITIAL_CATS,
           testimonials: INITIAL_TESTIMONIALS,
-          services: INITIAL_SERVICES
+          services: INITIAL_SERVICES,
+          aboutGallery: INITIAL_ABOUT_GALLERY,
+          facilityGallery: INITIAL_FACILITY_GALLERY
         });
-        
+
         setCats(data.cats);
         setTestimonials(data.testimonials);
         setServices(data.services);
-
-        // Load galleries from localStorage/files
-        const aboutLocal = localStorage.getItem('about_gallery');
-        const facilityLocal = localStorage.getItem('facility_gallery');
-        
-        if (aboutLocal) {
-          try {
-            setAboutGallery(JSON.parse(aboutLocal));
-          } catch {
-            setAboutGallery(INITIAL_ABOUT_GALLERY);
-          }
-        }
-        
-        if (facilityLocal) {
-          try {
-            setFacilityGallery(JSON.parse(facilityLocal));
-          } catch {
-            setFacilityGallery(INITIAL_FACILITY_GALLERY);
-          }
-        }
+        setAboutGallery(data.aboutGallery);
+        setFacilityGallery(data.facilityGallery);
       }
-      
+
       setIsDataLoaded(true);
     };
 
@@ -163,7 +150,7 @@ const App: React.FC = () => {
 
     window.addEventListener('mousemove', updateCursor);
     window.addEventListener('beforeunload', handleBeforeUnload);
-    
+
     return () => {
       window.removeEventListener('mousemove', updateCursor);
       window.removeEventListener('beforeunload', handleBeforeUnload);
@@ -177,6 +164,8 @@ const App: React.FC = () => {
       gsap.to(cursor, {
         x: cursorPosition.x,
         y: cursorPosition.y,
+        xPercent: -50,
+        yPercent: -50,
         duration: 0.1,
         ease: "power2.out"
       });
@@ -194,23 +183,19 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-cat-blue text-cat-black font-sans selection:bg-cat-red selection:text-white">
-      {/* Custom Cursor Element */}
-      <div 
-        id="custom-cursor" 
-        className="hidden md:block fixed w-8 h-8 border-2 border-cat-black rounded-full pointer-events-none z-[9999] mix-blend-difference bg-white"
-        style={{ transform: 'translate(-50%, -50%)' }}
-      ></div>
+
 
       {view === 'loading' && (
-        <Loader 
-          onComplete={handleLoadingComplete} 
+        <Loader
+          onComplete={handleLoadingComplete}
           imageUrl={HERO_IMAGE_URL}
+          dataLoaded={isDataLoaded}
         />
       )}
-      
+
       {view === 'home' && (
-        <Hero 
-          onNavigate={(v) => navigateTo(v)} 
+        <Hero
+          onNavigate={(v) => navigateTo(v)}
           cats={cats}
           testimonials={testimonials}
           aboutGallery={aboutGallery}
@@ -219,16 +204,24 @@ const App: React.FC = () => {
       )}
 
       {view === 'adopt' && (
-        <Adoption onBack={() => navigateTo('home')} cats={cats} />
+        <Adoption onBack={() => navigateTo('home')} onNavigate={navigateTo} cats={cats} />
+      )}
+
+      {view === 'about' && (
+        <About onBack={() => navigateTo('home')} onNavigate={navigateTo} gallery={aboutGallery} />
       )}
 
       {view === 'board' && (
-        <Boarding onBack={() => navigateTo('home')} services={services} />
+        <Boarding onBack={() => navigateTo('home')} onNavigate={navigateTo} services={services} />
+      )}
+
+      {view === 'grooming' && (
+        <Grooming onBack={() => navigateTo('home')} onNavigate={navigateTo} />
       )}
 
       {view === 'admin' && (
-        <Admin 
-          onBack={() => navigateTo('home')} 
+        <Admin
+          onBack={() => navigateTo('home')}
           cats={cats}
           setCats={setCats}
           testimonials={testimonials}
@@ -241,6 +234,16 @@ const App: React.FC = () => {
           setFacilityGallery={setFacilityGallery}
         />
       )}
+
+      {/* Fixed Bottom Nav for Mobile */}
+      <FixedBottomNav currentView={view} onNavigate={navigateTo} />
+
+      {/* Custom Cursor Element - Moved to end for Z-index safety */}
+      <div
+        id="custom-cursor"
+        className="hidden md:block fixed w-8 h-8 border-2 border-cat-black rounded-full pointer-events-none z-[9999] mix-blend-difference bg-white"
+        style={{ top: 0, left: 0 }}
+      ></div>
     </div>
   );
 };
