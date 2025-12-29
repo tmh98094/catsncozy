@@ -166,9 +166,6 @@ const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials, aboutGaller
       <nav className="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b-4 border-cat-black px-4 py-3 transition-all">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <div className="w-10 h-10 bg-cat-blue rounded-full border-2 border-cat-black flex items-center justify-center relative overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1548546738-8509cb246ed3?w=100&q=80" className="w-full h-full object-cover opacity-80" alt="logo" />
-            </div>
             <div className="flex flex-col leading-none">
               <span className="text-[10px] font-bold tracking-widest text-cat-red uppercase">The Boutique Retreat</span>
               <span className="text-xl font-black text-cat-black">CATS & COZY</span>
