@@ -16,10 +16,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ onNavigate }) => {
                     className="flex items-center gap-3 cursor-pointer hover:scale-105 transition-transform"
                     onClick={() => onNavigate('home')}
                 >
-                    <div className="flex flex-col leading-none">
-                        <span className="text-[10px] font-bold tracking-widest text-cat-red uppercase">The Boutique Retreat</span>
-                        <span className="text-xl md:text-2xl font-black text-cat-black font-chewy">CATS & COZY</span>
-                    </div>
+                    <span className="text-2xl font-black text-cat-blue font-chewy">cats & cozy</span>
                 </div>
 
                 {/* Desktop Navigation */}
