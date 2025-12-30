@@ -197,4 +197,3 @@ const Community: React.FC<CommunityProps> = ({ onBack, onNavigate }) => {
 };
 
 export default Community;
-```

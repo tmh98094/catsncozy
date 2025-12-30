@@ -167,10 +167,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials, aboutGaller
       <nav className="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b-4 border-cat-black px-4 py-3 transition-all">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <div className="flex flex-col leading-none">
-              <span className="text-[10px] font-bold tracking-widest text-cat-red uppercase">The Boutique Retreat</span>
-              <span className="text-xl font-black text-cat-black font-chewy">CATS & COZY</span>
-            </div>
+            <span className="text-2xl font-black text-cat-blue font-chewy">cats & cozy</span>
           </div>
 
           <div className="hidden md:flex items-center gap-6">
@@ -229,10 +226,10 @@ const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials, aboutGaller
             </div>
 
             <h1
-              className="text-6xl xs:text-7xl md:text-9xl font-black text-white leading-[0.85] tracking-tight font-chewy"
+              className="text-6xl xs:text-7xl md:text-9xl font-black text-white leading-[0.85] tracking-tight font-chewy whitespace-nowrap"
               style={{ WebkitTextStroke: '3px #1a1a1a', textShadow: '6px 6px 0px #1a1a1a' }}
             >
-              CATS <span className="text-[#708dc5]" style={{ WebkitTextStroke: '3px #1a1a1a', textShadow: '6px 6px 0px #1a1a1a' }}>&</span><br />COZY
+              CATS <span className="text-[#708dc5]" style={{ WebkitTextStroke: '3px #1a1a1a', textShadow: '6px 6px 0px #1a1a1a' }}>&</span> COZY
             </h1>
 
             <div className="inline-block bg-white/95 backdrop-blur-md border-4 border-cat-black p-5 md:p-6 rounded-3xl max-w-2xl mx-auto mt-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transform hover:scale-105 transition-transform duration-300">
