@@ -3,12 +3,27 @@
 @tailwind utilities;
 
 @layer base {
+
+  /* Chewy Font for Branding */
+  @font-face {
+    font-family: 'Chewy';
+    src: url('/fonts/ChewyRegular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
   body {
     @apply antialiased;
   }
 }
 
 @layer utilities {
+
+  /* Chewy Font Utility */
+  .font-chewy {
+    font-family: 'Chewy', cursive, sans-serif;
+  }
+
   /* Hide scrollbar for Chrome, Safari and Opera */
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
@@ -16,7 +31,9 @@
 
   /* Hide scrollbar for IE, Edge and Firefox */
   .scrollbar-hide {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
   }
 }

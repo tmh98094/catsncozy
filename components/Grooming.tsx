@@ -4,6 +4,8 @@ import gsap from 'gsap';
 import { ArrowLeft, Scissors, Droplets, Wind, Sparkles, Shield, AlertTriangle, Info } from 'lucide-react';
 import { ViewState } from '../types';
 import SubPageNav from './SubPageNav';
+import PageHeader from './PageHeader';
+import Footer from './Footer';
 import { Modal } from './Modal';
 
 interface GroomingProps {
@@ -62,7 +64,9 @@ Hi, I would like to book a grooming session!
 
     return (
         <div ref={containerRef} className="min-h-screen bg-white w-full pb-32 md:pb-20">
-            {/* Consistent Navbar */}
+            {/* Desktop Header */}
+            <PageHeader onNavigate={onNavigate} />
+            {/* Mobile Navbar */}
             <SubPageNav onBack={onBack} onNavigate={onNavigate} currentPage="grooming" />
 
             {/* Hero Section - Add top padding for fixed navbar */}
@@ -296,6 +300,9 @@ Hi, I would like to book a grooming session!
                     </div>
                 )}
             </Modal>
+
+            {/* Footer */}
+            <Footer onNavigate={onNavigate} />
         </div>
     );
 };

@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { PawPrint, Heart, Camera, MapPin, Menu, X, Star, Quote, Mail, Home, Activity, Utensils, Sparkles, Shield, ChevronDown, Phone, Clock, Navigation, ArrowRight } from 'lucide-react';
 import { Modal } from './Modal';
+import Footer from './Footer';
 import { ContactFormData, Cat, Testimonial, GalleryItem, ViewState } from '../types';
 import { HERO_IMAGE_URL, FAQ_ITEMS } from '../constants';
 
@@ -168,7 +169,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials, aboutGaller
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <div className="flex flex-col leading-none">
               <span className="text-[10px] font-bold tracking-widest text-cat-red uppercase">The Boutique Retreat</span>
-              <span className="text-xl font-black text-cat-black">CATS & COZY</span>
+              <span className="text-xl font-black text-cat-black font-chewy">CATS & COZY</span>
             </div>
           </div>
 
@@ -228,7 +229,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials, aboutGaller
             </div>
 
             <h1
-              className="text-6xl xs:text-7xl md:text-9xl font-black text-white leading-[0.85] tracking-tight"
+              className="text-6xl xs:text-7xl md:text-9xl font-black text-white leading-[0.85] tracking-tight font-chewy"
               style={{ WebkitTextStroke: '3px #1a1a1a', textShadow: '6px 6px 0px #1a1a1a' }}
             >
               CATS <span className="text-[#708dc5]" style={{ WebkitTextStroke: '3px #1a1a1a', textShadow: '6px 6px 0px #1a1a1a' }}>&</span><br />COZY
@@ -690,21 +691,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials, aboutGaller
       </section>
 
       {/* --- FOOTER --- */}
-      <footer className="bg-cat-black text-white py-12 pb-32 md:pb-12 px-4 border-t-4 border-white">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="text-center md:text-left">
-            <h4 className="text-3xl font-black text-cat-yellow mb-2">CATS & COZY</h4>
-            <p className="text-gray-400">© 2025 Cats & Cozy. Penang, Malaysia.</p>
-          </div>
-          <div className="flex gap-6 items-center">
-            <a href="#" className="hover:text-cat-blue transition-colors font-bold">Instagram</a>
-            <a href="#" className="hover:text-cat-blue transition-colors font-bold">Facebook</a>
-            <button onClick={() => onNavigate('admin')} className="text-gray-600 hover:text-cat-red transition-colors font-bold text-sm">
-              Admin Login
-            </button>
-          </div>
-        </div>
-      </footer>
+      <Footer onNavigate={onNavigate} />
 
       {/* --- CONTACT MODAL --- */}
       <Modal

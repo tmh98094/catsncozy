@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ViewState, GalleryItem } from '../types';
 import SubPageNav from './SubPageNav';
+import PageHeader from './PageHeader';
+import Footer from './Footer';
 import { MapPin, Heart, Star, Award } from 'lucide-react';
 
 interface AboutProps {
@@ -40,6 +42,9 @@ const About: React.FC<AboutProps> = ({ onBack, onNavigate, gallery }) => {
 
     return (
         <div ref={containerRef} className="min-h-screen bg-white pb-20">
+            {/* Desktop Header */}
+            <PageHeader onNavigate={onNavigate} />
+            {/* Mobile Navbar */}
             <SubPageNav onBack={onBack} onNavigate={onNavigate} currentPage="about" />
 
             {/* Hero Section */}
@@ -174,6 +179,8 @@ const About: React.FC<AboutProps> = ({ onBack, onNavigate, gallery }) => {
 
             </div>
 
+            {/* Footer */}
+            <Footer onNavigate={onNavigate} />
         </div>
     );
 };

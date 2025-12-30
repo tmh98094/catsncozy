@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { Heart, Shield, Users, FileText, ChevronDown, ChevronUp, MessageCircle } from 'lucide-react';
 import { ViewState } from '../types';
 import SubPageNav from './SubPageNav';
+import PageHeader from './PageHeader';
+import Footer from './Footer';
 
 interface CommunityProps {
     onBack: () => void;
@@ -75,6 +77,9 @@ const Community: React.FC<CommunityProps> = ({ onBack, onNavigate }) => {
 
     return (
         <div className="min-h-screen bg-white pb-32 md:pb-20">
+            {/* Desktop Header */}
+            <PageHeader onNavigate={onNavigate} />
+            {/* Mobile Navbar */}
             <SubPageNav onBack={onBack} onNavigate={onNavigate} currentPage="community" />
 
             <div className="container mx-auto px-4 py-8 pt-24 max-w-4xl">
@@ -184,8 +189,12 @@ const Community: React.FC<CommunityProps> = ({ onBack, onNavigate }) => {
                     </div>
                 </div>
             </div>
+
+            {/* Footer */}
+            <Footer onNavigate={onNavigate} />
         </div>
     );
 };
 
 export default Community;
+```

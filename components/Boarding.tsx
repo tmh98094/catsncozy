@@ -5,6 +5,8 @@ import { ArrowLeft, CheckCircle, Calendar, Star, Check, Image as ImageIcon, Chev
 import { Modal } from './Modal';
 import { BookingFormData, Service, ViewState } from '../types';
 import SubPageNav from './SubPageNav';
+import PageHeader from './PageHeader';
+import Footer from './Footer';
 
 interface BoardingProps {
   onBack: () => void;
@@ -155,7 +157,9 @@ Hi, I would like to book a ${serviceType} slot!
 
   return (
     <div ref={containerRef} className="min-h-screen bg-white w-full pb-32 md:pb-20">
-      {/* Consistent Navbar */}
+      {/* Desktop Header */}
+      <PageHeader onNavigate={onNavigate} />
+      {/* Mobile Navbar */}
       <SubPageNav onBack={onBack} onNavigate={onNavigate} currentPage="board" />
 
       {/* Hero Section - Add top padding for fixed navbar */}
@@ -372,6 +376,9 @@ Hi, I would like to book a ${serviceType} slot!
           </div>
         )}
       </Modal>
+
+      {/* Footer */}
+      <Footer onNavigate={onNavigate} />
     </div>
   );
 };
