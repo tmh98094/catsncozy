@@ -4,11 +4,12 @@ import { ArrowLeft, Home, Calendar, Scissors, Heart, HeartHandshake, Shield } fr
 import { ViewState } from '../types';
 
 interface SubPageNavProps {
-    currentView: ViewState;
+    onBack: () => void;
     onNavigate: (view: ViewState) => void;
+    currentPage: string;
 }
 
-const SubPageNav: React.FC<SubPageNavProps> = ({ currentView, onNavigate }) => {
+const SubPageNav: React.FC<SubPageNavProps> = ({ onBack, onNavigate, currentPage }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const navItems = [
@@ -37,7 +38,7 @@ const SubPageNav: React.FC<SubPageNavProps> = ({ currentView, onNavigate }) => {
                         className={`
                             flex items-center gap-4 px-6 py-3 rounded-full shadow-lg border-2
                             bg-white hover:bg-gray-50 active:scale-95 transition-all
-                            ${currentView === item.id ? 'border-cat-black bg-gray-50' : 'border-gray-100'}
+                            ${currentPage === item.id ? 'border-cat-black bg-gray-50' : 'border-gray-100'}
                         `}
                     >
                         <div className={`p-2 rounded-full bg-gray-100 ${item.color}`}>
@@ -51,7 +52,7 @@ const SubPageNav: React.FC<SubPageNavProps> = ({ currentView, onNavigate }) => {
             {/* Main Toggle Button */}
             <div className="pointer-events-auto flex items-center gap-3 bg-white p-2 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-2 border-gray-100">
                 <button
-                    onClick={() => onNavigate('home')}
+                    onClick={onBack}
                     className="p-3 rounded-full hover:bg-gray-100 transition-colors text-gray-500"
                 >
                     <ArrowLeft size={24} />
@@ -66,7 +67,7 @@ const SubPageNav: React.FC<SubPageNavProps> = ({ currentView, onNavigate }) => {
                             onClick={() => onNavigate(item.id as ViewState)}
                             className={`
                                 p-3 rounded-full transition-all duration-300
-                                ${currentView === item.id
+                                ${currentPage === item.id
                                     ? 'bg-cat-black text-white scale-110 shadow-md'
                                     : 'text-gray-400 hover:bg-gray-50 hover:text-cat-black'}
                             `}

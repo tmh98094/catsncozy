@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Heart, Calendar, Home } from 'lucide-react';
+import { Home, Calendar, Scissors } from 'lucide-react';
 import { ViewState } from '../types';
 
 interface FixedBottomNavProps {
@@ -27,11 +27,11 @@ const FixedBottomNav: React.FC<FixedBottomNavProps> = ({ currentView, onNavigate
                 <div className="w-px h-8 bg-gray-600"></div>
 
                 <button
-                    onClick={() => onNavigate('adopt')}
-                    className={`flex flex-col items-center gap-1 p-2 transition-colors ${currentView === 'adopt' ? 'text-cat-red' : 'text-gray-400 hover:text-white'}`}
+                    onClick={() => onNavigate('grooming')}
+                    className={`flex flex-col items-center gap-1 p-2 transition-colors ${currentView === 'grooming' ? 'text-cat-orange' : 'text-gray-400 hover:text-white'}`}
                 >
-                    <Heart size={24} fill={currentView === 'adopt' ? "currentColor" : "none"} />
-                    <span className="text-[10px] font-bold uppercase">Adopt</span>
+                    <Scissors size={24} />
+                    <span className="text-[10px] font-bold uppercase">Groom</span>
                 </button>
 
                 <div className="w-px h-8 bg-gray-600"></div>
@@ -41,7 +41,7 @@ const FixedBottomNav: React.FC<FixedBottomNavProps> = ({ currentView, onNavigate
                     className={`flex flex-col items-center gap-1 p-2 transition-colors ${currentView === 'board' ? 'text-cat-blue' : 'text-gray-400 hover:text-white'}`}
                 >
                     <Calendar size={24} />
-                    <span className="text-[10px] font-bold uppercase">Book</span>
+                    <span className="text-[10px] font-bold uppercase">Board</span>
                 </button>
 
             </div>

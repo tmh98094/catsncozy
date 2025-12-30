@@ -1,8 +1,15 @@
 
 import React, { useState } from 'react';
 import { Heart, Shield, Users, FileText, ChevronDown, ChevronUp, MessageCircle } from 'lucide-react';
+import { ViewState } from '../types';
+import SubPageNav from './SubPageNav';
 
-const Community = () => {
+interface CommunityProps {
+    onBack: () => void;
+    onNavigate: (view: ViewState) => void;
+}
+
+const Community: React.FC<CommunityProps> = ({ onBack, onNavigate }) => {
     const [expandedSection, setExpandedSection] = useState<string | null>(null);
 
     const toggleSection = (section: string) => {
@@ -67,109 +74,113 @@ const Community = () => {
     ];
 
     return (
-        <div className="container mx-auto px-4 py-8 pb-32 max-w-4xl">
-            {/* Header */}
-            <div className="text-center mb-12 animate-fade-in-down">
-                <h1 className="text-5xl md:text-6xl font-black uppercase text-cat-black mb-4 tracking-tight">
-                    Community <span className="text-transparent bg-clip-text bg-gradient-to-r from-cat-blue to-cat-purple">& Care</span>
-                </h1>
-                <p className="text-xl md:text-2xl font-bold text-gray-500 uppercase tracking-widest">
-                    Adoption · Rescue · Fostering
-                </p>
-            </div>
+        <div className="min-h-screen bg-white pb-32 md:pb-20">
+            <SubPageNav onBack={onBack} onNavigate={onNavigate} currentPage="community" />
 
-            {/* Intro */}
-            <div className="bg-white rounded-3xl p-8 mb-12 shadow-md border-2 border-gray-100 animate-fade-in-up">
-                <p className="text-lg md:text-xl leading-relaxed text-gray-700">
-                    Community & Care reflects our ongoing commitment to feline welfare beyond our daycare, boarding, and grooming services. It is where our support for adoption, rescue, and fostering comes together — guided by care, responsibility, and respect for every cat.
-                </p>
-                <div className="mt-6 border-t-2 border-gray-100 pt-6">
-                    <p className="text-lg font-bold text-cat-black">This work is values-led, intentional, and shaped by years of lived experience.</p>
-                </div>
-            </div>
-
-            {/* Core Sections */}
-            <div className="grid gap-6 mb-16">
-                {sections.map((section) => (
-                    <div
-                        key={section.id}
-                        className="bg-white rounded-2xl overflow-hidden border-2 border-cat-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all"
-                    >
-                        <div className="p-6 md:p-8">
-                            <div className="flex items-center gap-4 mb-4">
-                                <div className="p-3 bg-gray-50 rounded-xl border-2 border-gray-100">
-                                    {section.icon}
-                                </div>
-                                <h2 className="text-2xl font-black uppercase">{section.title}</h2>
-                            </div>
-                            <div className="text-gray-700 leading-relaxed pl-0 md:pl-[4.5rem]">
-                                {section.content}
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-
-            {/* CTA Section */}
-            <div className="bg-cat-black text-white rounded-3xl p-8 md:p-12 mb-16 text-center shadow-xl relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-cat-blue rounded-full filter blur-3xl opacity-20 -translate-y-1/2 translate-x-1/2 group-hover:opacity-30 transition-opacity"></div>
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-cat-purple rounded-full filter blur-3xl opacity-20 translate-y-1/2 -translate-x-1/2 group-hover:opacity-30 transition-opacity"></div>
-
-                <div className="relative z-10 max-w-2xl mx-auto">
-                    <h2 className="text-3xl font-black uppercase mb-6">Adoption Enquiries & Community Collaboration</h2>
-                    <div className="space-y-6 text-gray-300 mb-8">
-                        <p>Community & Care initiatives are separate from our commercial services.</p>
-                        <p>Availability of adoptable cats, rescue involvement, or fostering support may vary depending on capacity and individual circumstances.</p>
-                        <p>For adoption enquiries or community collaboration, we welcome you to contact us directly to learn more about current or upcoming opportunities.</p>
-                    </div>
-
-                    <a
-                        href="https://wa.me/60162058440?text=Hi!%20I'm%20interested%20in%20your%20community%20and%20adoption%20initiatives."
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-3 bg-white text-cat-black font-black text-lg px-8 py-4 rounded-xl hover:bg-gray-100 hover:scale-105 transition-all shadow-[0px_0px_20px_rgba(255,255,255,0.3)]"
-                    >
-                        <MessageCircle size={24} />
-                        WhatsApp Us
-                    </a>
-
-                    <p className="mt-8 text-sm text-gray-400 border-t border-gray-800 pt-6">
-                        Adoption proceeds only after thoughtful discussion, appropriate screening, and mutual agreement — always with the cat’s best interest at heart.
+            <div className="container mx-auto px-4 py-8 pt-24 max-w-4xl">
+                {/* Header */}
+                <div className="text-center mb-12 animate-fade-in-down">
+                    <h1 className="text-5xl md:text-6xl font-black uppercase text-cat-black mb-4 tracking-tight">
+                        Community <span className="text-transparent bg-clip-text bg-gradient-to-r from-cat-blue to-cat-purple">& Care</span>
+                    </h1>
+                    <p className="text-xl md:text-2xl font-bold text-gray-500 uppercase tracking-widest">
+                        Adoption · Rescue · Fostering
                     </p>
                 </div>
-            </div>
 
-            {/* Terms & Conditions */}
-            <div className="max-w-3xl mx-auto">
-                <button
-                    onClick={() => toggleSection('terms')}
-                    className="w-full flex items-center justify-between cursor-pointer p-4 rounded-xl hover:bg-gray-50 transition-colors group focus:outline-none"
-                >
-                    <div className="flex items-center gap-3">
-                        <FileText className="text-gray-400 group-hover:text-cat-black transition-colors" />
-                        <h2 className="text-xl font-black uppercase text-gray-400 group-hover:text-cat-black transition-colors">Adoption Terms & Conditions</h2>
+                {/* Intro */}
+                <div className="bg-white rounded-3xl p-8 mb-12 shadow-md border-2 border-gray-100 animate-fade-in-up">
+                    <p className="text-lg md:text-xl leading-relaxed text-gray-700">
+                        Community & Care reflects our ongoing commitment to feline welfare beyond our daycare, boarding, and grooming services. It is where our support for adoption, rescue, and fostering comes together — guided by care, responsibility, and respect for every cat.
+                    </p>
+                    <div className="mt-6 border-t-2 border-gray-100 pt-6">
+                        <p className="text-lg font-bold text-cat-black">This work is values-led, intentional, and shaped by years of lived experience.</p>
                     </div>
-                    {expandedSection === 'terms' ? <ChevronUp className="text-cat-black" /> : <ChevronDown className="text-gray-400" />}
-                </button>
+                </div>
 
-                <div className={`overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out ${expandedSection === 'terms' ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                    <div className="pt-4 pb-8 px-4 space-y-8 text-gray-600 text-sm md:text-base">
-                        <div className="bg-orange-50 p-6 rounded-xl border border-orange-100 mb-8">
-                            <p className="font-bold text-cat-orange mb-2">Important Notice</p>
-                            <p>We believe responsible adoption begins with understanding, patience, and shared commitment. Adoption is subject to the following terms and conditions. By submitting an adoption enquiry or proceeding with adoption, you acknowledge and agree to these terms.</p>
-                            <p className="mt-4 font-bold">All approved adoptions require the execution of a legally binding Adoption Agreement prior to completion.</p>
+                {/* Core Sections */}
+                <div className="grid gap-6 mb-16">
+                    {sections.map((section) => (
+                        <div
+                            key={section.id}
+                            className="bg-white rounded-2xl overflow-hidden border-2 border-cat-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all"
+                        >
+                            <div className="p-6 md:p-8">
+                                <div className="flex items-center gap-4 mb-4">
+                                    <div className="p-3 bg-gray-50 rounded-xl border-2 border-gray-100">
+                                        {section.icon}
+                                    </div>
+                                    <h2 className="text-2xl font-black uppercase">{section.title}</h2>
+                                </div>
+                                <div className="text-gray-700 leading-relaxed pl-0 md:pl-[4.5rem]">
+                                    {section.content}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* CTA Section */}
+                <div className="bg-cat-black text-white rounded-3xl p-8 md:p-12 mb-16 text-center shadow-xl relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-cat-blue rounded-full filter blur-3xl opacity-20 -translate-y-1/2 translate-x-1/2 group-hover:opacity-30 transition-opacity"></div>
+                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-cat-purple rounded-full filter blur-3xl opacity-20 translate-y-1/2 -translate-x-1/2 group-hover:opacity-30 transition-opacity"></div>
+
+                    <div className="relative z-10 max-w-2xl mx-auto">
+                        <h2 className="text-3xl font-black uppercase mb-6">Adoption Enquiries & Community Collaboration</h2>
+                        <div className="space-y-6 text-gray-300 mb-8">
+                            <p>Community & Care initiatives are separate from our commercial services.</p>
+                            <p>Availability of adoptable cats, rescue involvement, or fostering support may vary depending on capacity and individual circumstances.</p>
+                            <p>For adoption enquiries or community collaboration, we welcome you to contact us directly to learn more about current or upcoming opportunities.</p>
                         </div>
 
-                        {terms.map((term, idx) => (
-                            <div key={idx}>
-                                <h3 className="font-bold text-cat-black uppercase mb-3 text-lg">{term.title}</h3>
-                                <ul className="space-y-2 pl-4 border-l-2 border-gray-200">
-                                    {term.items.map((item, i) => (
-                                        <li key={i}>{item}</li>
-                                    ))}
-                                </ul>
+                        <a
+                            href="https://wa.me/60162058440?text=Hi!%20I'm%20interested%20in%20your%20community%20and%20adoption%20initiatives."
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-3 bg-white text-cat-black font-black text-lg px-8 py-4 rounded-xl hover:bg-gray-100 hover:scale-105 transition-all shadow-[0px_0px_20px_rgba(255,255,255,0.3)]"
+                        >
+                            <MessageCircle size={24} />
+                            WhatsApp Us
+                        </a>
+
+                        <p className="mt-8 text-sm text-gray-400 border-t border-gray-800 pt-6">
+                            Adoption proceeds only after thoughtful discussion, appropriate screening, and mutual agreement — always with the cat’s best interest at heart.
+                        </p>
+                    </div>
+                </div>
+
+                {/* Terms & Conditions */}
+                <div className="max-w-3xl mx-auto">
+                    <button
+                        onClick={() => toggleSection('terms')}
+                        className="w-full flex items-center justify-between cursor-pointer p-4 rounded-xl hover:bg-gray-50 transition-colors group focus:outline-none"
+                    >
+                        <div className="flex items-center gap-3">
+                            <FileText className="text-gray-400 group-hover:text-cat-black transition-colors" />
+                            <h2 className="text-xl font-black uppercase text-gray-400 group-hover:text-cat-black transition-colors">Adoption Terms & Conditions</h2>
+                        </div>
+                        {expandedSection === 'terms' ? <ChevronUp className="text-cat-black" /> : <ChevronDown className="text-gray-400" />}
+                    </button>
+
+                    <div className={`overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out ${expandedSection === 'terms' ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                        <div className="pt-4 pb-8 px-4 space-y-8 text-gray-600 text-sm md:text-base">
+                            <div className="bg-orange-50 p-6 rounded-xl border border-orange-100 mb-8">
+                                <p className="font-bold text-cat-orange mb-2">Important Notice</p>
+                                <p>We believe responsible adoption begins with understanding, patience, and shared commitment. Adoption is subject to the following terms and conditions. By submitting an adoption enquiry or proceeding with adoption, you acknowledge and agree to these terms.</p>
+                                <p className="mt-4 font-bold">All approved adoptions require the execution of a legally binding Adoption Agreement prior to completion.</p>
                             </div>
-                        ))}
+
+                            {terms.map((term, idx) => (
+                                <div key={idx}>
+                                    <h3 className="font-bold text-cat-black uppercase mb-3 text-lg">{term.title}</h3>
+                                    <ul className="space-y-2 pl-4 border-l-2 border-gray-200">
+                                        {term.items.map((item, i) => (
+                                            <li key={i}>{item}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -204,7 +204,7 @@ const App: React.FC = () => {
       )}
 
       {view === 'community' && (
-        <Community />
+        <Community onBack={() => navigateTo('home')} onNavigate={navigateTo} />
       )}
 
       {view === 'about' && (

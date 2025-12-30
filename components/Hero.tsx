@@ -173,14 +173,18 @@ const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials, aboutGaller
           </div>
 
           <div className="hidden md:flex items-center gap-6">
-            <button onClick={() => scrollToSection('about')} className="font-bold hover:text-cat-red transition-colors">About Us</button>
-            <button onClick={() => scrollToSection('features')} className="font-bold hover:text-cat-red transition-colors">Services</button>
-            <button onClick={() => onNavigate('grooming')} className="font-bold hover:text-cat-red transition-colors">Grooming</button>
-            <button onClick={() => scrollToSection('gallery')} className="font-bold hover:text-cat-red transition-colors">Gallery</button>
-            <button onClick={() => scrollToSection('faq')} className="font-bold hover:text-cat-red transition-colors">FAQ</button>
-            <div className="h-6 w-0.5 bg-gray-200"></div>
-            <button onClick={() => onNavigate('community')} className="font-bold hover:text-cat-blue transition-colors">Community</button>
-            <button onClick={() => onNavigate('board')} className="font-bold hover:text-cat-blue transition-colors">Board</button>
+            {/* Main Services */}
+            <button onClick={() => onNavigate('board')} className="font-black text-lg hover:text-cat-blue transition-colors uppercase">Boarding</button>
+            <button onClick={() => onNavigate('grooming')} className="font-black text-lg hover:text-cat-orange transition-colors uppercase">Grooming</button>
+
+            <div className="h-6 w-0.5 bg-gray-300"></div>
+
+            {/* Secondary Items */}
+            <button onClick={() => scrollToSection('about')} className="font-medium hover:text-cat-red transition-colors">About</button>
+            <button onClick={() => scrollToSection('gallery')} className="font-medium hover:text-cat-red transition-colors">Gallery</button>
+            <button onClick={() => scrollToSection('faq')} className="font-medium hover:text-cat-red transition-colors">FAQ</button>
+            <button onClick={() => onNavigate('community')} className="font-medium text-gray-500 hover:text-cat-blue transition-colors">Community</button>
+
             <button onClick={() => setIsContactOpen(true)} className="bg-cat-black text-white px-5 py-2 rounded-full font-bold border-2 border-transparent hover:bg-white hover:text-cat-black hover:border-cat-black transition-all shadow-md">
               Contact Us
             </button>
@@ -193,25 +197,27 @@ const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials, aboutGaller
 
         {isMobileMenuOpen && (
           <div className="md:hidden absolute top-full left-0 w-full bg-white border-b-4 border-cat-black p-4 flex flex-col gap-4 shadow-xl">
-            <button onClick={() => scrollToSection('about')} className="text-lg font-bold">About Us</button>
-            <button onClick={() => scrollToSection('features')} className="text-lg font-bold">Services</button>
-            <button onClick={() => { onNavigate('grooming'); setIsMobileMenuOpen(false); }} className="text-lg font-bold">Grooming</button>
+            {/* Main Services */}
+            <button onClick={() => { onNavigate('board'); setIsMobileMenuOpen(false); }} className="text-xl font-black text-cat-blue">Boarding</button>
+            <button onClick={() => { onNavigate('grooming'); setIsMobileMenuOpen(false); }} className="text-xl font-black text-cat-orange">Grooming</button>
+            <hr className="border-gray-200" />
+            {/* Secondary */}
+            <button onClick={() => scrollToSection('about')} className="text-lg font-bold">About</button>
             <button onClick={() => scrollToSection('gallery')} className="text-lg font-bold">Gallery</button>
             <button onClick={() => scrollToSection('faq')} className="text-lg font-bold">FAQ</button>
+            <button onClick={() => { onNavigate('community'); setIsMobileMenuOpen(false); }} className="text-lg font-medium text-gray-600">Community & Care</button>
             <hr className="border-gray-200" />
-            <button onClick={() => onNavigate('community')} className="text-lg font-bold text-cat-red">Community & Care</button>
-            <button onClick={() => onNavigate('board')} className="text-lg font-bold text-cat-blue">Boarding Services</button>
-            <button onClick={() => { setIsContactOpen(true); setIsMobileMenuOpen(false); }} className="bg-cat-black text-white p-3 rounded-xl font-bold text-center">Contact Us</button>
+            <button onClick={() => { setIsContactOpen(true); setIsMobileMenuOpen(false); }} className="bg-cat-black text-white p-3 rounded-xl font-black text-center">Contact Us</button>
           </div>
         )}
       </nav>
 
       {/* --- HERO SECTION --- */}
       <div id="hero-top" className="relative min-h-[100dvh] w-full overflow-hidden bg-cat-blue flex flex-col justify-center">
+        {/* Solid Background with Gradient Overlays */}
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-t from-cat-blue via-transparent to-transparent z-10 opacity-90"></div>
-          <div className="absolute inset-0 bg-black/10 z-10"></div>
-          <img src={HERO_IMAGE_URL} alt="Cat Licking Paws" className="hero-bg w-full h-full object-cover object-center will-change-transform" />
+          <div className="absolute inset-0 bg-gradient-to-br from-cat-blue via-[#708dc5] to-cat-blue opacity-90"></div>
+          <div className="absolute inset-0 bg-pattern opacity-5"></div>
         </div>
 
         <div className="relative z-20 w-full flex flex-col items-center justify-center px-4 pt-24 pb-40 md:pt-20 md:pb-10">
@@ -230,24 +236,13 @@ const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials, aboutGaller
 
             <div className="inline-block bg-white/95 backdrop-blur-md border-4 border-cat-black p-5 md:p-6 rounded-3xl max-w-2xl mx-auto mt-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transform hover:scale-105 transition-transform duration-300">
               <p className="text-lg md:text-2xl font-black text-cat-black leading-tight">
-                The Purrfect Place to Board Your Best Friend—and Adopt Your Next.
+                Premium Boarding & Grooming for Your Feline Friends.
               </p>
             </div>
           </div>
 
-          <div className="hero-content w-full max-w-2xl grid grid-cols-2 md:grid-cols-3 gap-4 px-4">
-            <button
-              onClick={() => onNavigate('community')}
-              className="hero-btn group relative bg-cat-yellow border-4 border-cat-black py-4 md:p-6 rounded-3xl transform transition-all duration-300 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none flex flex-col items-center justify-center text-center overflow-hidden"
-            >
-              <div className="relative z-10 flex flex-col items-center">
-                <Heart className="w-6 h-6 fill-current mx-auto mb-1 text-cat-black" />
-                <span className="block text-xl md:text-3xl font-black text-cat-black uppercase leading-none">Care</span>
-                <span className="block text-[10px] md:text-xs font-bold uppercase tracking-wider opacity-70 mt-1">Community</span>
-              </div>
-              <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-white rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-            </button>
-
+          <div className="hero-content w-full max-w-2xl grid grid-cols-2 gap-4 px-4">
+            {/* Boarding - Primary CTA */}
             <button
               onClick={() => onNavigate('board')}
               className="hero-btn group relative bg-cat-red border-4 border-cat-black py-4 md:p-6 rounded-3xl transform transition-all duration-300 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none flex flex-col items-center justify-center text-center overflow-hidden"
@@ -260,12 +255,13 @@ const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials, aboutGaller
               <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-white rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
             </button>
 
+            {/* Grooming - Primary CTA */}
             <button
               onClick={() => onNavigate('grooming')}
-              className="hero-btn group relative bg-white border-4 border-cat-black py-4 md:p-6 rounded-3xl transform transition-all duration-300 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none flex flex-col items-center justify-center text-center overflow-hidden col-span-2 md:col-span-1"
+              className="hero-btn group relative bg-cat-yellow border-4 border-cat-black py-4 md:p-6 rounded-3xl transform transition-all duration-300 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none flex flex-col items-center justify-center text-center overflow-hidden"
             >
               <div className="relative z-10 flex flex-col items-center">
-                <Sparkles className="w-6 h-6 text-cat-orange mx-auto mb-1" />
+                <Sparkles className="w-6 h-6 text-cat-black mx-auto mb-1" />
                 <span className="block text-xl md:text-3xl font-black text-cat-black uppercase leading-none">Groom</span>
                 <span className="block text-[10px] md:text-xs font-bold uppercase tracking-wider opacity-70 mt-1">Spa & Shine</span>
               </div>
@@ -667,51 +663,28 @@ const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials, aboutGaller
         </div>
       </section>
 
-      {/* --- ADOPTION ADVOCACY SECTION --- */}
-      <section className="relative py-24 px-4 bg-cat-orange border-t-4 border-cat-black overflow-hidden">
-        {/* Animated Background Cats */}
-        <div className="absolute inset-0 z-0 overflow-hidden opacity-20 pointer-events-none">
-          <div className="flex absolute top-10 left-0 animate-marquee gap-20">
-            {[...cats, ...cats].map((cat, idx) => (
-              <div key={`r1-${idx}`} className="w-32 h-32 md:w-48 md:h-48 rounded-3xl overflow-hidden border-4 border-white transform rotate-3 bg-white flex-shrink-0">
-                <img src={cat.image} className="w-full h-full object-cover" alt="" />
-              </div>
-            ))}
-          </div>
-
-          <div className="flex absolute bottom-10 left-0 animate-marquee-reverse gap-24">
-            {[...cats, ...cats].reverse().map((cat, idx) => (
-              <div key={`r2-${idx}`} className="w-24 h-24 md:w-40 md:h-40 rounded-3xl overflow-hidden border-4 border-white transform -rotate-3 bg-white flex-shrink-0">
-                <img src={cat.image} className="w-full h-full object-cover" alt="" />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-cat-red/20 rounded-full blur-3xl translate-x-1/3 translate-y-1/3 pointer-events-none z-0"></div>
-
+      {/* --- COMMUNITY VALUES SECTION --- */}
+      <section className="relative py-24 px-4 bg-gray-100 border-t-4 border-cat-black overflow-hidden">
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="scroll-animate inline-block bg-white text-cat-red px-6 py-2 rounded-full border-2 border-cat-black font-black uppercase tracking-widest mb-8 shadow-md">
-            Adopt Don't Shop
+          <div className="scroll-animate inline-block bg-cat-blue px-6 py-2 rounded-full border-2 border-cat-black font-black uppercase tracking-widest mb-8 shadow-md">
+            Community & Care
           </div>
 
-          <h2 className="scroll-animate text-5xl md:text-8xl font-black text-white mb-8 drop-shadow-[4px_4px_0px_#1a1a1a] leading-tight">
-            BE THEIR <br />HERO.
+          <h2 className="scroll-animate text-4xl md:text-6xl font-black text-cat-black mb-8 leading-tight">
+            MORE THAN JUST A SERVICE.
           </h2>
 
-          <p className="scroll-animate text-xl md:text-2xl font-bold text-white mb-10 leading-relaxed drop-shadow-sm max-w-2xl mx-auto bg-cat-orange/50 backdrop-blur-sm p-4 rounded-2xl border-2 border-white/20">
-            Stray cats face cold nights, empty stomachs, and constant danger. But beneath the dirt lies a loving soul just waiting for a warm lap.
-            <br /><br />
-            When you choose to adopt, you promise them that they will never be lonely again. Be a hero - Adopt don't buy
+          <p className="scroll-animate text-xl md:text-2xl font-medium text-gray-700 mb-10 leading-relaxed max-w-2xl mx-auto">
+            We believe every cat deserves a life shaped by care, patience, and understanding.
+            Beyond our boarding and grooming services, we support adoption, rescue, and fostering initiatives that align with our values.
           </p>
 
           <button
             onClick={() => onNavigate('community')}
-            className="scroll-animate bg-white text-cat-black text-xl font-black py-4 px-12 rounded-full border-4 border-cat-black hover:bg-cat-black hover:text-white transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-none hover:translate-y-2 flex items-center gap-3 mx-auto"
+            className="scroll-animate bg-cat-black text-white text-xl font-black py-4 px-12 rounded-full border-4 border-cat-black hover:bg-white hover:text-cat-black transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-none hover:translate-y-2 flex items-center gap-3 mx-auto"
           >
             <Heart className="fill-current" />
-            JOIN OUR COMMUNITY
+            LEARN MORE
           </button>
         </div>
       </section>
