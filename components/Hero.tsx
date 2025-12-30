@@ -3,11 +3,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { PawPrint, Heart, Camera, MapPin, Menu, X, Star, Quote, Mail, Home, Activity, Utensils, Sparkles, Shield, ChevronDown, Phone, Clock, Navigation, ArrowRight } from 'lucide-react';
 import { Modal } from './Modal';
-import { ContactFormData, Cat, Testimonial, GalleryItem } from '../types';
+import { ContactFormData, Cat, Testimonial, GalleryItem, ViewState } from '../types';
 import { HERO_IMAGE_URL, FAQ_ITEMS } from '../constants';
 
 interface HeroProps {
-  onNavigate: (view: 'adopt' | 'board' | 'grooming' | 'about' | 'admin') => void;
+  onNavigate: (view: ViewState) => void;
   cats: Cat[];
   testimonials: Testimonial[];
   aboutGallery: GalleryItem[];
@@ -179,7 +179,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials, aboutGaller
             <button onClick={() => scrollToSection('gallery')} className="font-bold hover:text-cat-red transition-colors">Gallery</button>
             <button onClick={() => scrollToSection('faq')} className="font-bold hover:text-cat-red transition-colors">FAQ</button>
             <div className="h-6 w-0.5 bg-gray-200"></div>
-            <button onClick={() => onNavigate('adopt')} className="font-bold hover:text-cat-blue transition-colors">Adopt</button>
+            <button onClick={() => onNavigate('community')} className="font-bold hover:text-cat-blue transition-colors">Community</button>
             <button onClick={() => onNavigate('board')} className="font-bold hover:text-cat-blue transition-colors">Board</button>
             <button onClick={() => setIsContactOpen(true)} className="bg-cat-black text-white px-5 py-2 rounded-full font-bold border-2 border-transparent hover:bg-white hover:text-cat-black hover:border-cat-black transition-all shadow-md">
               Contact Us
@@ -199,7 +199,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials, aboutGaller
             <button onClick={() => scrollToSection('gallery')} className="text-lg font-bold">Gallery</button>
             <button onClick={() => scrollToSection('faq')} className="text-lg font-bold">FAQ</button>
             <hr className="border-gray-200" />
-            <button onClick={() => onNavigate('adopt')} className="text-lg font-bold text-cat-red">Adopt a Cat</button>
+            <button onClick={() => onNavigate('community')} className="text-lg font-bold text-cat-red">Community & Care</button>
             <button onClick={() => onNavigate('board')} className="text-lg font-bold text-cat-blue">Boarding Services</button>
             <button onClick={() => { setIsContactOpen(true); setIsMobileMenuOpen(false); }} className="bg-cat-black text-white p-3 rounded-xl font-bold text-center">Contact Us</button>
           </div>
@@ -237,13 +237,13 @@ const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials, aboutGaller
 
           <div className="hero-content w-full max-w-2xl grid grid-cols-2 md:grid-cols-3 gap-4 px-4">
             <button
-              onClick={() => onNavigate('adopt')}
+              onClick={() => onNavigate('community')}
               className="hero-btn group relative bg-cat-yellow border-4 border-cat-black py-4 md:p-6 rounded-3xl transform transition-all duration-300 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none flex flex-col items-center justify-center text-center overflow-hidden"
             >
               <div className="relative z-10 flex flex-col items-center">
                 <Heart className="w-6 h-6 fill-current mx-auto mb-1 text-cat-black" />
-                <span className="block text-xl md:text-3xl font-black text-cat-black uppercase leading-none">Adopt</span>
-                <span className="block text-[10px] md:text-xs font-bold uppercase tracking-wider opacity-70 mt-1">Find a friend</span>
+                <span className="block text-xl md:text-3xl font-black text-cat-black uppercase leading-none">Care</span>
+                <span className="block text-[10px] md:text-xs font-bold uppercase tracking-wider opacity-70 mt-1">Community</span>
               </div>
               <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-white rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
             </button>
@@ -707,11 +707,11 @@ const Hero: React.FC<HeroProps> = ({ onNavigate, cats, testimonials, aboutGaller
           </p>
 
           <button
-            onClick={() => onNavigate('adopt')}
+            onClick={() => onNavigate('community')}
             className="scroll-animate bg-white text-cat-black text-xl font-black py-4 px-12 rounded-full border-4 border-cat-black hover:bg-cat-black hover:text-white transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-none hover:translate-y-2 flex items-center gap-3 mx-auto"
           >
             <Heart className="fill-current" />
-            FIND A FRIEND
+            JOIN OUR COMMUNITY
           </button>
         </div>
       </section>

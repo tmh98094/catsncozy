@@ -266,76 +266,7 @@ const Admin: React.FC<AdminProps> = ({ cats, setCats, testimonials, setTestimoni
     }
   }, [isAuthenticated]);
 
-  // Auto-save effects
-  useEffect(() => {
-    if (!isAuthenticated) return;
-    const save = async () => {
-      if (supabaseConnected) {
-        const { saveSupabaseData } = await import('../utils/supabaseDataManager');
-        await saveSupabaseData('cats', cats);
-      } else {
-        const { saveData } = await import('../utils/dataManager');
-        await saveData('cats', cats);
-      }
-    };
-    save();
-  }, [cats, isAuthenticated, supabaseConnected]);
-
-  useEffect(() => {
-    if (!isAuthenticated) return;
-    const save = async () => {
-      if (supabaseConnected) {
-        const { saveSupabaseData } = await import('../utils/supabaseDataManager');
-        await saveSupabaseData('testimonials', testimonials);
-      } else {
-        const { saveData } = await import('../utils/dataManager');
-        await saveData('testimonials', testimonials);
-      }
-    };
-    save();
-  }, [testimonials, isAuthenticated, supabaseConnected]);
-
-  useEffect(() => {
-    if (!isAuthenticated) return;
-    const save = async () => {
-      if (supabaseConnected) {
-        const { saveSupabaseData } = await import('../utils/supabaseDataManager');
-        await saveSupabaseData('services', services);
-      } else {
-        const { saveData } = await import('../utils/dataManager');
-        await saveData('services', services);
-      }
-    };
-    save();
-  }, [services, isAuthenticated, supabaseConnected]);
-
-  useEffect(() => {
-    if (!isAuthenticated) return;
-    const save = async () => {
-      if (supabaseConnected) {
-        const { saveSupabaseData } = await import('../utils/supabaseDataManager');
-        await saveSupabaseData('about_gallery', aboutGallery);
-      } else {
-        const { saveData } = await import('../utils/dataManager');
-        await saveData('aboutGallery', aboutGallery);
-      }
-    };
-    save();
-  }, [aboutGallery, isAuthenticated, supabaseConnected]);
-
-  useEffect(() => {
-    if (!isAuthenticated) return;
-    const save = async () => {
-      if (supabaseConnected) {
-        const { saveSupabaseData } = await import('../utils/supabaseDataManager');
-        await saveSupabaseData('facility_gallery', facilityGallery);
-      } else {
-        const { saveData } = await import('../utils/dataManager');
-        await saveData('facilityGallery', facilityGallery);
-      }
-    };
-    save();
-  }, [facilityGallery, isAuthenticated, supabaseConnected]);
+  // Auto-save is handled by App.tsx to prevent race conditions
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Loader from './components/Loader';
 import Hero from './components/Hero';
-import Adoption from './components/Adoption';
+import Community from './components/Community';
 import Boarding from './components/Boarding';
 import Grooming from './components/Grooming';
 import About from './components/About';
@@ -203,8 +203,8 @@ const App: React.FC = () => {
         />
       )}
 
-      {view === 'adopt' && (
-        <Adoption onBack={() => navigateTo('home')} onNavigate={navigateTo} cats={cats} />
+      {view === 'community' && (
+        <Community />
       )}
 
       {view === 'about' && (

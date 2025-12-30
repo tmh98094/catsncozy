@@ -19,7 +19,9 @@ export interface Service {
   images: string[];
 }
 
-export type ViewState = 'loading' | 'home' | 'adopt' | 'board' | 'grooming' | 'about' | 'admin';
+export type ViewState = 'loading' | 'home' | 'about' | 'services' | 'board' | 'grooming' | 'community' | 'admin';
+
+export type Tab = 'cats' | 'testimonials' | 'services' | 'galleries';
 
 export interface AdoptionFormData {
   name: string;

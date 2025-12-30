@@ -1,84 +1,82 @@
 
 import React, { useState } from 'react';
-import { ArrowLeft, Menu, X, Heart, PawPrint, Scissors, Home, Scroll } from 'lucide-react';
+import { ArrowLeft, Home, Calendar, Scissors, Heart, HeartHandshake, Shield } from 'lucide-react';
 import { ViewState } from '../types';
 
 interface SubPageNavProps {
-    onBack: () => void;
+    currentView: ViewState;
     onNavigate: (view: ViewState) => void;
-    currentPage: 'adopt' | 'board' | 'grooming' | 'about';
 }
 
-const SubPageNav: React.FC<SubPageNavProps> = ({ onBack, onNavigate, currentPage }) => {
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+const SubPageNav: React.FC<SubPageNavProps> = ({ currentView, onNavigate }) => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const navItems = [
         { id: 'about', label: 'Our Story', icon: Heart, color: 'text-cat-red' },
-        { id: 'adopt', label: 'Adopt', icon: PawPrint, color: 'text-cat-blue' }, // Changed Icon to PawPrint variety if needed, keeping simple
-        { id: 'board', label: 'Stay & Play', icon: Home, color: 'text-cat-black' }, // Changed Icon
+        { id: 'community', label: 'Community', icon: HeartHandshake, color: 'text-cat-blue' },
+        { id: 'board', label: 'Stay & Play', icon: Home, color: 'text-cat-black' },
         { id: 'grooming', label: 'Spa & Groom', icon: Scissors, color: 'text-cat-yellow' },
     ];
 
     return (
-        <nav className="fixed top-0 left-0 w-full z-50 bg-white/95 backdrop-blur-md border-b-4 border-cat-black px-4 py-3 transition-all">
-            <div className="max-w-7xl mx-auto flex justify-between items-center">
-                {/* Logo / Back to Home */}
-                <button onClick={onBack} className="flex items-center gap-3 group">
-                    <div className="bg-cat-blue p-2 rounded-full border-2 border-cat-black group-hover:scale-110 transition-transform">
-                        <ArrowLeft size={20} className="text-cat-black" />
-                    </div>
-                    <div className="hidden md:flex flex-col leading-none">
-                        <span className="text-[10px] font-bold tracking-widest text-cat-red uppercase">Back to</span>
-                        <span className="text-lg font-black text-cat-black">CATS & COZY</span>
-                    </div>
+        <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-4 w-full max-w-sm px-4 pointer-events-none">
+
+            {/* Expanded Menu */}
+            <div className={`
+                flex flex-col gap-2 
+                transition-all duration-300 ease-out origin-bottom
+                ${isMenuOpen ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto' : 'opacity-0 scale-95 translate-y-4 pointer-events-none'}
+            `}>
+                {navItems.map((item) => (
+                    <button
+                        key={item.id}
+                        onClick={() => {
+                            onNavigate(item.id as ViewState);
+                            setIsMenuOpen(false);
+                        }}
+                        className={`
+                            flex items-center gap-4 px-6 py-3 rounded-full shadow-lg border-2
+                            bg-white hover:bg-gray-50 active:scale-95 transition-all
+                            ${currentView === item.id ? 'border-cat-black bg-gray-50' : 'border-gray-100'}
+                        `}
+                    >
+                        <div className={`p-2 rounded-full bg-gray-100 ${item.color}`}>
+                            <item.icon size={20} className={item.color} />
+                        </div>
+                        <span className="font-bold text-cat-black text-lg">{item.label}</span>
+                    </button>
+                ))}
+            </div>
+
+            {/* Main Toggle Button */}
+            <div className="pointer-events-auto flex items-center gap-3 bg-white p-2 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-2 border-gray-100">
+                <button
+                    onClick={() => onNavigate('home')}
+                    className="p-3 rounded-full hover:bg-gray-100 transition-colors text-gray-500"
+                >
+                    <ArrowLeft size={24} />
                 </button>
 
-                {/* Desktop Nav */}
-                <div className="hidden md:flex items-center gap-4">
-                    {navItems.map(item => (
+                <div className="h-8 w-[2px] bg-gray-100"></div>
+
+                <div className="flex items-center gap-1 px-2">
+                    {navItems.map((item) => (
                         <button
                             key={item.id}
                             onClick={() => onNavigate(item.id as ViewState)}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-full font-bold transition-all border-2 ${currentPage === item.id
-                                ? `bg-cat-black text-white border-cat-black`
-                                : `bg-white hover:bg-gray-100 border-gray-200 hover:border-cat-black`
-                                }`}
+                            className={`
+                                p-3 rounded-full transition-all duration-300
+                                ${currentView === item.id
+                                    ? 'bg-cat-black text-white scale-110 shadow-md'
+                                    : 'text-gray-400 hover:bg-gray-50 hover:text-cat-black'}
+                            `}
                         >
-                            <item.icon size={18} className={currentPage === item.id ? 'text-white' : item.color} />
-                            {item.label}
+                            <item.icon size={20} />
                         </button>
                     ))}
                 </div>
-
-                {/* Mobile Menu Toggle */}
-                <button className="md:hidden p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-                    {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
             </div>
-
-            {/* Mobile Menu Dropdown */}
-            {isMobileMenuOpen && (
-                <div className="md:hidden absolute top-full left-0 w-full bg-white border-b-4 border-cat-black p-4 flex flex-col gap-3 shadow-xl">
-                    {navItems.map(item => (
-                        <button
-                            key={item.id}
-                            onClick={() => { onNavigate(item.id as ViewState); setIsMobileMenuOpen(false); }}
-                            className={`flex items-center gap-3 p-3 rounded-xl font-bold transition-all ${currentPage === item.id
-                                ? `bg-cat-black text-white`
-                                : `bg-gray-50 hover:bg-gray-100`
-                                }`}
-                        >
-                            <item.icon size={20} className={currentPage === item.id ? 'text-white' : item.color} />
-                            {item.label}
-                        </button>
-                    ))}
-                    <hr className="border-gray-200 my-2" />
-                    <button onClick={onBack} className="flex items-center gap-3 p-3 rounded-xl font-bold text-gray-500 hover:bg-gray-100">
-                        <Home size={20} /> Back to Home
-                    </button>
-                </div>
-            )}
-        </nav>
+        </div>
     );
 };
 
